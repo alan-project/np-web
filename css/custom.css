@@ -1,0 +1,120 @@
+/* Navigation Menu Styles */
+.navbar-default {
+    background-color: transparent !important;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Show dark background when scrolling up */
+.navbar-shrink {
+    background-color: #222 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Navbar Links */
+.navbar-default .navbar-nav > li > a {
+    color: #fff !important;
+    font-weight: 500;
+    padding: 20px 15px;
+    transition: all 0.3s ease;
+}
+
+/* Dropdown Menu */
+.navbar-default .navbar-nav .dropdown-menu {
+    background-color: #333 !important;
+    border: 1px solid #444;
+    border-radius: 0;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    padding: 0;
+    margin: 0;
+}
+
+/* Dropdown Menu */
+.navbar-default .navbar-nav .dropdown-menu {
+    background-color: #333 !important;
+    border: 1px solid #444;
+    border-radius: 0;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    padding: 0;
+    margin: 0;
+}
+
+/* Dropdown Items */
+.navbar-default .dropdown-menu > li > a {
+    color: #fff !important;
+    padding: 12px 20px;
+    border-bottom: 1px solid #444;
+    background-color: transparent !important;
+    transition: none !important;
+}
+
+/* Remove all hover/focus/active states */
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .dropdown-menu > li > a:hover,
+.navbar-default .dropdown-menu > li > a:focus,
+.navbar-default .dropdown-menu > li > a:active,
+.navbar-default .dropdown-menu > li > a:visited,
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #fff !important;
+    background-color: transparent !important;
+    opacity: 1 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Dropdown Toggle */
+.navbar-default .dropdown-toggle .caret {
+    border-top-color: #fff;
+    border-bottom-color: #fff;
+}
+
+/* Mobile Menu */
+.navbar-toggle {
+    border: none;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: #fff !important;
+}
+
+/* Mobile Menu Button */
+.navbar-toggle {
+    margin-top: 13px;
+}
+
+/* Mobile Menu Items */
+.navbar-collapse {
+    border: none;
+}
+
+/* Ensure text is white in mobile menu */
+.navbar-default .navbar-collapse, 
+.navbar-default .navbar-form {
+    border-color: #333;
+}
+
+/* Remove all focus outlines */
+*:focus {
+    outline: none !important;
+}
+
+/* Smooth scrolling for anchor links */
+html, body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent flash of unstyled content */
+[data-section] {
+    opacity: 1 !important;
+    transform: none !important;
+}

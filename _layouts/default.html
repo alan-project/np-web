@@ -16,6 +16,93 @@
     {% include footer.html %}
     {% include modals.html %}
     {% include js.html %}
+    
+    <!-- Custom JavaScript -->
+    <script>
+    $(document).ready(function(){
+        // Handle Home link click
+        $('a[href="#page-top"]').on('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $('html, body').stop().animate({
+                scrollTop: 0
+            }, 800);
+            return false;
+        });
+
+        // Smooth scrolling for other links with hashes
+        $('a[href*="#"]').not('[href="#"]').not('[href="#page-top"]').on('click', function(event) {
+            if (this.hash !== '') {
+                event.preventDefault();
+                event.stopPropagation();
+                const hash = this.hash;
+                const target = $(hash);
+                if (target.length) {
+                    // Close dropdown immediately
+                    $('.dropdown').removeClass('open');
+                    
+                    // Calculate target position
+                    const targetOffset = target.offset().top - 50;
+                    const currentOffset = $(window).scrollTop();
+                    const distance = Math.abs(targetOffset - currentOffset);
+                    
+                    // Calculate duration based on distance (min 300ms, max 1000ms)
+                    const duration = Math.min(Math.max(distance * 0.5, 300), 1000);
+                    
+                    // Smooth scroll with linear easing for consistent speed
+                    $('html, body').stop().animate({
+                        scrollTop: targetOffset
+                    }, duration, 'linear');
+                    
+                    // Update URL without adding to history
+                    if (history.pushState) {
+                        history.pushState(null, null, hash);
+                    } else {
+                        location.hash = hash;
+                    }
+                } else {
+                    $('.dropdown').removeClass('open');
+                }
+                return false;
+            }
+        });
+        
+        // Remove active class from all nav items on click
+        $('.navbar-nav li').removeClass('active');
+        
+        // Track scroll position for navbar background
+        var lastScrollTop = 0;
+        var $navbar = $('.navbar-default');
+        
+        $(window).on('scroll', function() {
+            var scrollTop = $(this).scrollTop();
+            
+            if (scrollTop > 50) {
+                $navbar.addClass('navbar-shrink');
+            } else {
+                $navbar.removeClass('navbar-shrink');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // Initialize
+        $(window).trigger('scroll');
+        
+        // Initialize dropdown menus
+        $('.dropdown-toggle').dropdown();
+        
+        // Close dropdown when clicking outside
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('.dropdown').length) {
+                $('.dropdown').removeClass('open');
+            }
+        });
+        
+        // Reinitialize dropdown toggles after dynamic content loads
+        $('.dropdown-toggle').dropdown();
+    });
+    </script>
 
     </body>
 </html>
