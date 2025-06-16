@@ -1,20 +1,1177 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Platter - Served in Your Language</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<div class="home">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
 
-  <h1>Posts</h1>
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            color: white;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+        header.scrolled {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 0;
+        }
 
-</div>
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled .logo {
+            font-size: 1.5rem;
+        }
+
+        .logo::before {
+            content: "🌍";
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled .logo::before {
+            font-size: 1.2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav li {
+            position: relative;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        header.scrolled nav a {
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+        }
+
+        nav a:hover, nav a.active {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.15);
+            font-weight: 700;
+            transform: scale(1.05);
+        }
+
+        header.scrolled nav a:hover, header.scrolled nav a.active {
+            transform: scale(1.02);
+        }
+
+        /* Features Dropdown */
+        .features-dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(30, 30, 30, 0.98);
+            min-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .features-dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+            transform: none;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            color: white;
+            padding: 100px 0 60px;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="50" cy="10" r="1" fill="%23ffffff" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .highlight {
+            color: #ff6b35;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        .app-badges {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        .phone-mockup {
+            text-align: center;
+            position: relative;
+        }
+
+        .phone-image {
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            border-radius: 35px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-image::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            background: #1a1a1a;
+            border-radius: 25px;
+        }
+
+        .phone-image span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Features Section */
+        .features {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .feature-item {
+            background: white;
+            margin-bottom: 4rem;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: #fafbfc;
+        }
+
+        .feature-item:nth-child(even) .feature-content {
+            order: 2;
+        }
+
+        .feature-item:nth-child(even) .feature-image {
+            order: 1;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .feature-content h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .feature-content p {
+            font-size: 1.2rem;
+            color: #5a6c7d;
+            line-height: 1.8;
+        }
+
+        .feature-phone {
+            width: 220px;
+            height: 400px;
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            border-radius: 25px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b35;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-phone::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: #1a1a1a;
+            border-radius: 20px;
+        }
+
+        .feature-phone span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Teams Section */
+        .teams {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teams::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        }
+
+        .teams .section-title {
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .teams .section-subtitle {
+            color: #bdc3c7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            color: #ff6b35;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .member-description {
+            color: #bdc3c7;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .contact-form {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem 5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-row-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .footer-logo::before {
+            content: "🌍";
+            font-size: 1.8rem;
+        }
+
+        .footer-description {
+            color: #bdc3c7;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            color: #7f8c8d;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(30, 30, 30, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                border-radius: 0 0 12px 12px;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .feature-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 3rem 1rem;
+            }
+
+            .feature-item:nth-child(even) .feature-content,
+            .feature-item:nth-child(even) .feature-image {
+                order: unset;
+            }
+
+            .form-row, .form-row-three {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Countries Section */
+        .countries {
+            background: white;
+            padding: 100px 0;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .country-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f1f3f4;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .country-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #ff6b35;
+        }
+
+        .country-card.active {
+            border-color: #ff6b35;
+            background: linear-gradient(135deg, #fff 0%, #fff8f6 100%);
+        }
+
+        .country-card.coming-soon {
+            background: #f8f9fa;
+            border-style: dashed;
+            border-color: #dee2e6;
+        }
+
+        .country-flag {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+        }
+
+        .country-card.coming-soon .country-flag {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .country-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .country-card.coming-soon .country-name {
+            color: #6c757d;
+        }
+
+        .country-status {
+            color: #ff6b35;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .country-card.coming-soon .country-status {
+            color: #6c757d;
+        }
+
+        .country-description {
+            color: #5a6c7d;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .country-card.coming-soon .country-description {
+            color: #adb5bd;
+            font-style: italic;
+        }
+
+        .launch-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">NEWS PLATTER</div>
+                <nav>
+                    <ul id="nav-menu">
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li class="features-dropdown">
+                            <a href="#features" class="nav-link">Features</a>
+                            <div class="dropdown-content">
+                                <a href="#feature1">Feature 1: Translation</a>
+                                <a href="#feature2">Feature 2: Real-Time</a>
+                                <a href="#feature3">Feature 3: Bookmarks</a>
+                                <a href="#feature4">Feature 4: Notifications</a>
+                            </div>
+                        </li>
+                        <li><a href="#countries" class="nav-link">Countries</a></li>
+                        <li><a href="#teams" class="nav-link">Teams</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1>
+                        News Platter:<br>
+                        <span class="highlight">Served in your language</span>
+                    </h1>
+                    <p>Get breaking news from around the world in your preferred language. Real-time updates, smart translations, and personalized content delivered instantly to your device.</p>
+                    <div class="app-badges">
+                        <a href="#" class="badge">📱 Google Play Store</a>
+                        <a href="#" class="badge">🍎 Apple App Store</a>
+                    </div>
+                </div>
+                <div class="phone-mockup fade-in">
+                    <div class="phone-image">
+                        <span>NEWS PLATTER<br>Mobile App</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title fade-in">Powerful Features</h2>
+            <p class="section-subtitle fade-in">Discover what makes News Platter the ultimate news companion</p>
+            
+            <!-- Feature 1 -->
+            <div id="feature1" class="feature-item fade-in">
+                <div class="feature-content">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Multi-Language Translation</h3>
+                    <p>Get news in your preferred language with real-time translation support for Hindi, Arabic, Chinese, Korean, English and more. Our AI-powered translation ensures accuracy and context preservation across all supported languages.</p>
+                </div>
+                <div class="feature-image">
+                    <div class="feature-phone">
+                        <span>Multi-Language<br>Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div id="feature2" class="feature-item fade-in">
+                <div class="feature-content">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Updates</h3>
+                    <p>Stay updated with breaking news as it happens. Our advanced system delivers the latest news instantly from trusted sources worldwide, ensuring you're always informed about important events as they unfold.</p>
+                </div>
+                <div class="feature-image">
+                    <div class="feature-phone">
+                        <span>Live News<br>Updates</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div id="feature3" class="feature-item fade-in">
+                <div class="feature-content">
+                    <div class="feature-icon">🔖</div>
+                    <h3>Smart Bookmarks</h3>
+                    <p>Save articles you want to read later with intelligent categorization and easy access across all your devices. Our smart system automatically organizes your saved content by topic, date, and relevance.</p>
+                </div>
+                <div class="feature-image">
+                    <div class="feature-phone">
+                        <span>Smart<br>Bookmarks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div id="feature4" class="feature-item fade-in">
+                <div class="feature-content">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Push Notifications</h3>
+                    <p>Never miss important news with customizable push notifications tailored to your interests and location. Set up alerts for breaking news, specific topics, or regions that matter most to you.</p>
+                </div>
+                <div class="feature-image">
+                    <div class="feature-phone">
+                        <span>Smart<br>Notifications</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countries Section -->
+    <section id="countries" class="countries">
+        <div class="container">
+            <h2 class="section-title fade-in">Global Expansion</h2>
+            <p class="section-subtitle fade-in">Bringing News Platter to countries around the world, one launch at a time</p>
+            
+            <div class="countries-grid">
+                <!-- Canada - Active -->
+                <div class="country-card active fade-in">
+                    <div class="launch-badge">LIVE</div>
+                    <div class="country-flag">🇨🇦</div>
+                    <div class="country-name">Canada</div>
+                    <div class="country-status">Now Available</div>
+                    <div class="country-description">
+                        Successfully launched with full multi-language support including English and French. 
+                        Serving Canadian users with localized news content.
+                    </div>
+                </div>
+
+                <!-- Germany - Coming Soon -->
+                <div class="country-card coming-soon fade-in">
+                    <div class="country-flag">🇩🇪</div>
+                    <div class="country-name">Germany</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        Preparing launch with German language support and local news partnerships. 
+                        Expected availability in Q2 2024.
+                    </div>
+                </div>
+
+                <!-- Saudi Arabia - Coming Soon -->
+                <div class="country-card coming-soon fade-in">
+                    <div class="country-flag">🇸🇦</div>
+                    <div class="country-name">Saudi Arabia</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        Developing Arabic language integration and regional news sources. 
+                        Launch planned for Q3 2024.
+                    </div>
+                </div>
+
+                <!-- South Korea - Coming Soon -->
+                <div class="country-card coming-soon fade-in">
+                    <div class="country-flag">🇰🇷</div>
+                    <div class="country-name">South Korea</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        Building Korean language support and local media partnerships. 
+                        Targeting Q4 2024 release.
+                    </div>
+                </div>
+
+                <!-- India - Coming Soon -->
+                <div class="country-card coming-soon fade-in">
+                    <div class="country-flag">🇮🇳</div>
+                    <div class="country-name">India</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        Preparing multi-language support for Hindi, Tamil, and other regional languages. 
+                        Launch expected in 2025.
+                    </div>
+                </div>
+
+                <!-- China - Coming Soon -->
+                <div class="country-card coming-soon fade-in">
+                    <div class="country-flag">🇨🇳</div>
+                    <div class="country-name">China</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        Developing Simplified Chinese support and compliance with local regulations. 
+                        Timeline to be announced.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teams Section -->
+    <section id="teams" class="teams">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <p class="section-subtitle">The passionate people behind News Platter</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">👨‍💻</div>
+                    <div class="member-name">Alex Chen</div>
+                    <div class="member-role">Lead Developer</div>
+                    <div class="member-description">Full-stack developer with 8+ years experience in mobile app development and AI integration. Passionate about creating seamless user experiences.</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">👩‍🎨</div>
+                    <div class="member-name">Sarah Kim</div>
+                    <div class="member-role">UI/UX Designer</div>
+                    <div class="member-description">Creative designer passionate about user-centered design and accessibility for global audiences. Expert in cross-cultural design principles.</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">👨‍💼</div>
+                    <div class="member-name">Michael Rodriguez</div>
+                    <div class="member-role">Marketing Director</div>
+                    <div class="member-description">Digital marketing expert specializing in app growth and user acquisition across multiple international markets and demographics.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <p class="section-subtitle">Have questions or feedback? We'd love to hear from you and help you get started.</p>
+            
+            <form class="contact-form">
+                <div class="form-row-three">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us more about your inquiry..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">NEWS PLATTER</div>
+            <p class="footer-description">Bringing you news from around the world, in your language.</p>
+            <div class="copyright">
+                <p>&copy; 2024 News Platter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Smooth scrolling and active menu highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        const header = document.getElementById('header');
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                // Close mobile menu if open
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+
+        // Active menu highlighting on scroll and header background change
+        function updateOnScroll() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            // Update active menu
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update header background based on scroll position (starts immediately when scrolling)
+            if (window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // Scroll animations (excluding teams and contact sections)
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                // Skip animation for teams and contact sections
+                const parentSection = element.closest('#teams, #contact');
+                if (parentSection) {
+                    element.classList.add('visible');
+                    return;
+                }
+
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Contact form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && subject && message) {
+                alert('Thank you for your message! We will get back to you soon.');
+                this.reset();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateOnScroll();
+            animateOnScroll();
+        });
+
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            updateOnScroll();
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add initial fade-in class to elements
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((element, index) => {
+                // Skip delay for teams and contact sections
+                const parentSection = element.closest('#teams, #contact');
+                if (!parentSection) {
+                    setTimeout(() => {
+                        element.style.transitionDelay = `${index * 0.1}s`;
+                    }, 100);
+                }
+            });
+            
+            // Trigger initial animation check
+            setTimeout(animateOnScroll, 200);
+        });
+    </script>
+</body>
+</html>
