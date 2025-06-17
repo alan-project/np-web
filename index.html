@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Platter - Served in Your Language</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -36,33 +37,47 @@
         }
 
         header.scrolled {
-            background: rgba(30, 30, 30, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             padding: 0.8rem 0;
         }
 
         .logo {
+            font-family: 'Inter', sans-serif;
+            font-style: italic;
+            font-weight: 900;
             font-size: 1.8rem;
-            font-weight: bold;
-            color: #ff6b35;
             display: flex;
             align-items: center;
             gap: 10px;
             transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-20px);
         }
 
         header.scrolled .logo {
+            opacity: 1;
+            transform: translateX(0);
             font-size: 1.5rem;
         }
 
-        .logo::before {
-            content: "🌍";
-            font-size: 1.5rem;
+        .logo .news-text {
+            color: #dc2626;
+        }
+
+        .logo .platter-text {
+            color: white;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
             transition: all 0.3s ease;
         }
 
-        header.scrolled .logo::before {
-            font-size: 1.2rem;
+        header.scrolled .logo-icon {
+            width: 26px;
+            height: 26px;
         }
 
         .header-content {
@@ -99,9 +114,8 @@
         }
 
         nav a:hover, nav a.active {
-            color: #ff6b35;
-            background: rgba(255, 107, 53, 0.15);
-            font-weight: 700;
+            color: #dc2626;
+            background: rgba(220, 38, 38, 0.15);
             transform: scale(1.05);
         }
 
@@ -118,7 +132,7 @@
             position: absolute;
             top: 100%;
             left: 0;
-            background: rgba(30, 30, 30, 0.98);
+            background: rgba(0, 0, 0, 0.98);
             min-width: 200px;
             border-radius: 8px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -127,7 +141,7 @@
             transform: translateY(-10px);
             transition: all 0.3s ease;
             margin-top: 10px;
-            border: 1px solid rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
         .features-dropdown:hover .dropdown-content {
@@ -149,8 +163,8 @@
         }
 
         .dropdown-content a:hover {
-            background: rgba(255, 107, 53, 0.2);
-            color: #ff6b35;
+            background: rgba(220, 38, 38, 0.2);
+            color: #dc2626;
             transform: none;
         }
 
@@ -166,7 +180,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
             color: white;
             padding: 100px 0 60px;
             min-height: 85vh;
@@ -197,15 +211,25 @@
         }
 
         .hero-text h1 {
+            font-family: 'Inter', sans-serif;
+            font-style: italic;
+            font-weight: 900;
             font-size: 3.2rem;
             margin-bottom: 1.5rem;
-            font-weight: 700;
             line-height: 1.2;
         }
 
+        .hero-text h1 .news-text {
+            color: #dc2626;
+        }
+
+        .hero-text h1 .platter-text {
+            color: white;
+        }
+
         .highlight {
-            color: #ff6b35;
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: #9ca3af;
+            background: linear-gradient(45deg, #9ca3af, #d1d5db);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -214,7 +238,7 @@
         .hero-text p {
             font-size: 1.3rem;
             margin-bottom: 2.5rem;
-            color: #bdc3c7;
+            color: #d1d5db;
             line-height: 1.6;
         }
 
@@ -225,58 +249,93 @@
         }
 
         .badge {
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            display: block;
         }
 
         .badge:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
         }
 
+        .badge img {
+            height: 75px;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Phone Carousel - 수정된 무한 슬라이드 */
         .phone-mockup {
             text-align: center;
             position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .phone-image {
-            width: 280px;
-            height: 560px;
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
-            border-radius: 35px;
-            margin: 0 auto;
+        .phone-carousel {
+            position: relative;
+            width: 100%;
+            height: 900px;
+            overflow: hidden; /* 중요: 넘치는 부분 숨기기 */
+            border-radius: 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 500%; /* 5개 슬라이드 */
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0%); /* 초기 위치 */
+        }
+
+        .carousel-track.no-transition {
+            transition: none;
+        }
+
+        .phone-slide {
+            width: 20%; /* 5개 슬라이드이므로 각각 20% */
+            height: 100%;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
         }
 
-        .phone-image::before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            background: #1a1a1a;
-            border-radius: 25px;
+        .phone-slide img {
+            width: auto;
+            height: 850px;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 0;
         }
 
-        .phone-image span {
-            position: relative;
-            z-index: 1;
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #000000;
+            transform: scale(1.2);
+        }
+
+        .indicator:hover {
+            background: rgba(0, 0, 0, 0.7);
         }
 
         /* Section Styles */
@@ -288,14 +347,14 @@
             text-align: center;
             font-size: 2.8rem;
             margin-bottom: 1rem;
-            color: #2c3e50;
+            color: #1a1a1a;
             font-weight: 700;
         }
 
         .section-subtitle {
             text-align: center;
             font-size: 1.3rem;
-            color: #7f8c8d;
+            color: #6b7280;
             margin-bottom: 4rem;
             max-width: 700px;
             margin-left: auto;
@@ -304,7 +363,7 @@
 
         /* Features Section */
         .features {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
         }
 
         .feature-item {
@@ -315,7 +374,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 1px solid #e5e7eb;
             transition: all 0.3s ease;
         }
 
@@ -334,7 +393,7 @@
         .feature-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -342,59 +401,43 @@
             margin-bottom: 2rem;
             color: white;
             font-size: 1.8rem;
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+            padding: 15px;
+        }
+
+        .feature-icon img {
+            width: 40px;
+            height: 40px;
+            filter: brightness(0) invert(1);
         }
 
         .feature-content h3 {
             font-size: 2.2rem;
             margin-bottom: 1.5rem;
-            color: #2c3e50;
+            color: #1a1a1a;
             font-weight: 600;
         }
 
         .feature-content p {
             font-size: 1.2rem;
-            color: #5a6c7d;
+            color: #4b5563;
             line-height: 1.8;
         }
 
-        .feature-phone {
-            width: 220px;
-            height: 400px;
-            background: linear-gradient(45deg, #2c3e50, #34495e);
-            border-radius: 25px;
+        .feature-phone-img {
+            width: auto;
+            height: auto;
+            max-width: 220px;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 0;
             margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ff6b35;
-            font-weight: bold;
-            text-align: center;
-            font-size: 1.1rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-phone::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            background: #1a1a1a;
-            border-radius: 20px;
-        }
-
-        .feature-phone span {
-            position: relative;
-            z-index: 1;
+            display: block;
         }
 
         /* Teams Section */
         .teams {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             color: white;
             position: relative;
             overflow: hidden;
@@ -417,7 +460,7 @@
         }
 
         .teams .section-subtitle {
-            color: #bdc3c7;
+            color: #d1d5db;
             position: relative;
             z-index: 1;
         }
@@ -449,14 +492,22 @@
         .member-photo {
             width: 120px;
             height: 120px;
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
             border-radius: 50%;
             margin: 0 auto 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+            overflow: hidden;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .member-name {
@@ -466,21 +517,21 @@
         }
 
         .member-role {
-            color: #ff6b35;
+            color: #dc2626;
             font-weight: 600;
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
         }
 
         .member-description {
-            color: #bdc3c7;
+            color: #d1d5db;
             line-height: 1.6;
             font-size: 1rem;
         }
 
         /* Contact Section */
         .contact {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
         }
 
         .contact-form {
@@ -490,7 +541,7 @@
             padding: 4rem 5rem;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.1);
         }
 
         .form-group {
@@ -513,14 +564,14 @@
             display: block;
             margin-bottom: 0.8rem;
             font-weight: 600;
-            color: #2c3e50;
+            color: #1a1a1a;
             font-size: 1.1rem;
         }
 
         input, textarea {
             width: 100%;
             padding: 15px 20px;
-            border: 2px solid #e9ecef;
+            border: 2px solid #e5e7eb;
             border-radius: 12px;
             font-size: 1.1rem;
             transition: all 0.3s ease;
@@ -529,8 +580,8 @@
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #ff6b35;
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         textarea {
@@ -539,7 +590,7 @@
         }
 
         .submit-btn {
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
             color: white;
             padding: 18px 40px;
             border: none;
@@ -549,26 +600,27 @@
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 12px 35px rgba(220, 38, 38, 0.4);
         }
 
         /* Footer */
         footer {
-            background: #1a1a1a;
+            background: #000000;
             color: white;
             padding: 4rem 0;
             text-align: center;
         }
 
         .footer-logo {
+            font-family: 'Inter', sans-serif;
+            font-style: italic;
+            font-weight: 900;
             font-size: 2rem;
-            font-weight: bold;
-            color: #ff6b35;
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
@@ -576,22 +628,30 @@
             gap: 10px;
         }
 
-        .footer-logo::before {
-            content: "🌍";
-            font-size: 1.8rem;
+        .footer-logo .news-text {
+            color: #dc2626;
+        }
+
+        .footer-logo .platter-text {
+            color: white;
+        }
+
+        .footer-logo img {
+            width: 32px;
+            height: 32px;
         }
 
         .footer-description {
-            color: #bdc3c7;
+            color: #d1d5db;
             margin-bottom: 2rem;
             font-size: 1.1rem;
         }
 
         .copyright {
-            color: #7f8c8d;
+            color: #9ca3af;
             margin-top: 2rem;
             padding-top: 2rem;
-            border-top: 1px solid #333;
+            border-top: 1px solid #374151;
         }
 
         /* Responsive */
@@ -606,7 +666,7 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(30, 30, 30, 0.98);
+                background: rgba(0, 0, 0, 0.98);
                 flex-direction: column;
                 padding: 2rem;
                 border-radius: 0 0 12px 12px;
@@ -622,8 +682,21 @@
                 gap: 2rem;
             }
 
+            .hero-content .phone-mockup {
+                order: -1;
+            }
+
             .hero-text h1 {
                 font-size: 2.5rem;
+            }
+
+            .phone-carousel {
+                height: 600px;
+            }
+
+            .phone-slide img {
+                height: 550px;
+                max-width: 100%;
             }
 
             .feature-item {
@@ -653,6 +726,15 @@
             .section-title {
                 font-size: 2.2rem;
             }
+
+            .badge img {
+                height: 60px;
+            }
+
+            .countries-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.5rem;
+            }
         }
 
         html {
@@ -679,9 +761,9 @@
 
         .countries-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2.5rem;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -700,18 +782,18 @@
         .country-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border-color: #ff6b35;
+            border-color: #dc2626;
         }
 
         .country-card.active {
-            border-color: #ff6b35;
-            background: linear-gradient(135deg, #fff 0%, #fff8f6 100%);
+            border-color: #dc2626;
+            background: linear-gradient(135deg, #fff 0%, #fef2f2 100%);
         }
 
         .country-card.coming-soon {
-            background: #f8f9fa;
+            background: #f9fafb;
             border-style: dashed;
-            border-color: #dee2e6;
+            border-color: #d1d5db;
         }
 
         .country-flag {
@@ -723,28 +805,36 @@
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
             color: white;
+            overflow: hidden;
+        }
+
+        .country-flag img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .country-card.coming-soon .country-flag {
-            background: #e9ecef;
-            color: #6c757d;
+            background: #e5e7eb;
+            color: #6b7280;
         }
 
         .country-name {
             font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #2c3e50;
+            color: #1a1a1a;
         }
 
         .country-card.coming-soon .country-name {
-            color: #6c757d;
+            color: #6b7280;
         }
 
         .country-status {
-            color: #ff6b35;
+            color: #dc2626;
             font-weight: 600;
             margin-bottom: 1rem;
             font-size: 0.9rem;
@@ -753,17 +843,17 @@
         }
 
         .country-card.coming-soon .country-status {
-            color: #6c757d;
+            color: #6b7280;
         }
 
         .country-description {
-            color: #5a6c7d;
+            color: #4b5563;
             line-height: 1.6;
             font-size: 0.95rem;
         }
 
         .country-card.coming-soon .country-description {
-            color: #adb5bd;
+            color: #9ca3af;
             font-style: italic;
         }
 
@@ -771,13 +861,32 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: linear-gradient(45deg, #28a745, #20c997);
+            background: linear-gradient(45deg, #059669, #10b981);
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
+        }
+
+        @media (max-width: 1200px) {
+            .countries-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .countries-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .countries-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -786,7 +895,10 @@
     <header id="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">NEWS PLATTER</div>
+                <div class="logo">
+                    <img src="assets/images/newsplatter-icon.png" alt="News Platter Icon" class="logo-icon">
+                    <span class="news-text">NEWS</span> <span class="platter-text">PLATTER</span>
+                </div>
                 <nav>
                     <ul id="nav-menu">
                         <li><a href="#home" class="nav-link">Home</a></li>
@@ -815,18 +927,46 @@
             <div class="hero-content">
                 <div class="hero-text fade-in">
                     <h1>
-                        News Platter:<br>
+                        <span class="news-text">News</span> <span class="platter-text">Platter</span>:<br>
                         <span class="highlight">Served in your language</span>
                     </h1>
                     <p>Get breaking news from around the world in your preferred language. Real-time updates, smart translations, and personalized content delivered instantly to your device.</p>
                     <div class="app-badges">
-                        <a href="#" class="badge">📱 Google Play Store</a>
-                        <a href="#" class="badge">🍎 Apple App Store</a>
+                        <a href="#" class="badge">
+                            <img src="assets/images/google-play-badge.png" alt="Get it on Google Play">
+                        </a>
+                        <a href="#" class="badge">
+                            <img src="assets/images/app-store-badge.png" alt="Download on the App Store">
+                        </a>
                     </div>
                 </div>
                 <div class="phone-mockup fade-in">
-                    <div class="phone-image">
-                        <span>NEWS PLATTER<br>Mobile App</span>
+                    <div class="phone-carousel">
+                        <div class="carousel-track" id="carousel-track">
+                            <!-- 원본 슬라이드들 -->
+                            <div class="phone-slide">
+                                <img src="assets/images/mock_main_1.png" alt="News Platter App - Home">
+                            </div>
+                            <div class="phone-slide">
+                                <img src="assets/images/mock_main_2.png" alt="News Platter App - Features">
+                            </div>
+                            <div class="phone-slide">
+                                <img src="assets/images/mock_main_3.png" alt="News Platter App - Translation">
+                            </div>
+                            <div class="phone-slide">
+                                <img src="assets/images/mock_main_4.png" alt="News Platter App - Settings">
+                            </div>
+                            <!-- 첫 번째 슬라이드 복제 (무한 효과용) -->
+                            <div class="phone-slide">
+                                <img src="assets/images/mock_main_1.png" alt="News Platter App - Home">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <div class="indicator active" onclick="goToSlide(0)"></div>
+                        <div class="indicator" onclick="goToSlide(1)"></div>
+                        <div class="indicator" onclick="goToSlide(2)"></div>
+                        <div class="indicator" onclick="goToSlide(3)"></div>
                     </div>
                 </div>
             </div>
@@ -842,56 +982,56 @@
             <!-- Feature 1 -->
             <div id="feature1" class="feature-item fade-in">
                 <div class="feature-content">
-                    <div class="feature-icon">🌐</div>
+                    <div class="feature-icon">
+                        <img src="assets/images/translation-icon.png" alt="Translation Icon">
+                    </div>
                     <h3>Multi-Language Translation</h3>
                     <p>Get news in your preferred language with real-time translation support for Hindi, Arabic, Chinese, Korean, English and more. Our AI-powered translation ensures accuracy and context preservation across all supported languages.</p>
                 </div>
                 <div class="feature-image">
-                    <div class="feature-phone">
-                        <span>Multi-Language<br>Support</span>
-                    </div>
+                    <img src="assets/images/feature-translation-phone.png" alt="Translation Feature" class="feature-phone-img">
                 </div>
             </div>
 
             <!-- Feature 2 -->
             <div id="feature2" class="feature-item fade-in">
                 <div class="feature-content">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon">
+                        <img src="assets/images/realtime-icon.png" alt="Real-time Icon">
+                    </div>
                     <h3>Real-Time Updates</h3>
                     <p>Stay updated with breaking news as it happens. Our advanced system delivers the latest news instantly from trusted sources worldwide, ensuring you're always informed about important events as they unfold.</p>
                 </div>
                 <div class="feature-image">
-                    <div class="feature-phone">
-                        <span>Live News<br>Updates</span>
-                    </div>
+                    <img src="assets/images/feature-realtime-phone.png" alt="Real-time Feature" class="feature-phone-img">
                 </div>
             </div>
 
             <!-- Feature 3 -->
             <div id="feature3" class="feature-item fade-in">
                 <div class="feature-content">
-                    <div class="feature-icon">🔖</div>
+                    <div class="feature-icon">
+                        <img src="assets/images/bookmark-icon.png" alt="Bookmark Icon">
+                    </div>
                     <h3>Smart Bookmarks</h3>
                     <p>Save articles you want to read later with intelligent categorization and easy access across all your devices. Our smart system automatically organizes your saved content by topic, date, and relevance.</p>
                 </div>
                 <div class="feature-image">
-                    <div class="feature-phone">
-                        <span>Smart<br>Bookmarks</span>
-                    </div>
+                    <img src="assets/images/feature-bookmark-phone.png" alt="Bookmark Feature" class="feature-phone-img">
                 </div>
             </div>
 
             <!-- Feature 4 -->
             <div id="feature4" class="feature-item fade-in">
                 <div class="feature-content">
-                    <div class="feature-icon">🔔</div>
+                    <div class="feature-icon">
+                        <img src="assets/images/notification-icon.png" alt="Notification Icon">
+                    </div>
                     <h3>Push Notifications</h3>
                     <p>Never miss important news with customizable push notifications tailored to your interests and location. Set up alerts for breaking news, specific topics, or regions that matter most to you.</p>
                 </div>
                 <div class="feature-image">
-                    <div class="feature-phone">
-                        <span>Smart<br>Notifications</span>
-                    </div>
+                    <img src="assets/images/feature-notification-phone.png" alt="Notification Feature" class="feature-phone-img">
                 </div>
             </div>
         </div>
@@ -903,11 +1043,13 @@
             <h2 class="section-title fade-in">Global Expansion</h2>
             <p class="section-subtitle fade-in">Bringing News Platter to countries around the world, one launch at a time</p>
             
-            <div class="countries-grid">
+            <div class="countries-grid fade-in">
                 <!-- Canada - Active -->
-                <div class="country-card active fade-in">
+                <div class="country-card active">
                     <div class="launch-badge">LIVE</div>
-                    <div class="country-flag">🇨🇦</div>
+                    <div class="country-flag">
+                        <img src="assets/images/flag-canada.png" alt="Canada Flag">
+                    </div>
                     <div class="country-name">Canada</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
@@ -917,8 +1059,10 @@
                 </div>
 
                 <!-- Germany - Coming Soon -->
-                <div class="country-card coming-soon fade-in">
-                    <div class="country-flag">🇩🇪</div>
+                <div class="country-card coming-soon">
+                    <div class="country-flag">
+                        <img src="assets/images/flag-germany.png" alt="Germany Flag">
+                    </div>
                     <div class="country-name">Germany</div>
                     <div class="country-status">Coming Soon</div>
                     <div class="country-description">
@@ -928,8 +1072,10 @@
                 </div>
 
                 <!-- Saudi Arabia - Coming Soon -->
-                <div class="country-card coming-soon fade-in">
-                    <div class="country-flag">🇸🇦</div>
+                <div class="country-card coming-soon">
+                    <div class="country-flag">
+                        <img src="assets/images/flag-saudi-arabia.png" alt="Saudi Arabia Flag">
+                    </div>
                     <div class="country-name">Saudi Arabia</div>
                     <div class="country-status">Coming Soon</div>
                     <div class="country-description">
@@ -939,8 +1085,10 @@
                 </div>
 
                 <!-- South Korea - Coming Soon -->
-                <div class="country-card coming-soon fade-in">
-                    <div class="country-flag">🇰🇷</div>
+                <div class="country-card coming-soon">
+                    <div class="country-flag">
+                        <img src="assets/images/flag-south-korea.png" alt="South Korea Flag">
+                    </div>
                     <div class="country-name">South Korea</div>
                     <div class="country-status">Coming Soon</div>
                     <div class="country-description">
@@ -950,8 +1098,10 @@
                 </div>
 
                 <!-- India - Coming Soon -->
-                <div class="country-card coming-soon fade-in">
-                    <div class="country-flag">🇮🇳</div>
+                <div class="country-card coming-soon">
+                    <div class="country-flag">
+                        <img src="assets/images/flag-india.png" alt="India Flag">
+                    </div>
                     <div class="country-name">India</div>
                     <div class="country-status">Coming Soon</div>
                     <div class="country-description">
@@ -961,8 +1111,10 @@
                 </div>
 
                 <!-- China - Coming Soon -->
-                <div class="country-card coming-soon fade-in">
-                    <div class="country-flag">🇨🇳</div>
+                <div class="country-card coming-soon">
+                    <div class="country-flag">
+                        <img src="assets/images/flag-china.png" alt="China Flag">
+                    </div>
                     <div class="country-name">China</div>
                     <div class="country-status">Coming Soon</div>
                     <div class="country-description">
@@ -982,21 +1134,27 @@
             
             <div class="team-grid">
                 <div class="team-member">
-                    <div class="member-photo">👨‍💻</div>
+                    <div class="member-photo">
+                        <img src="assets/images/team-alex-chen.jpg" alt="Alex Chen">
+                    </div>
                     <div class="member-name">Alex Chen</div>
                     <div class="member-role">Lead Developer</div>
                     <div class="member-description">Full-stack developer with 8+ years experience in mobile app development and AI integration. Passionate about creating seamless user experiences.</div>
                 </div>
                 
                 <div class="team-member">
-                    <div class="member-photo">👩‍🎨</div>
+                    <div class="member-photo">
+                        <img src="assets/images/team-sarah-kim.jpg" alt="Sarah Kim">
+                    </div>
                     <div class="member-name">Sarah Kim</div>
                     <div class="member-role">UI/UX Designer</div>
                     <div class="member-description">Creative designer passionate about user-centered design and accessibility for global audiences. Expert in cross-cultural design principles.</div>
                 </div>
                 
                 <div class="team-member">
-                    <div class="member-photo">👨‍💼</div>
+                    <div class="member-photo">
+                        <img src="assets/images/team-michael-rodriguez.jpg" alt="Michael Rodriguez">
+                    </div>
                     <div class="member-name">Michael Rodriguez</div>
                     <div class="member-role">Marketing Director</div>
                     <div class="member-description">Digital marketing expert specializing in app growth and user acquisition across multiple international markets and demographics.</div>
@@ -1045,7 +1203,10 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-logo">NEWS PLATTER</div>
+            <div class="footer-logo">
+                <img src="assets/images/globe-icon.png" alt="Globe Icon">
+                <span class="news-text">NEWS</span> <span class="platter-text">PLATTER</span>
+            </div>
             <p class="footer-description">Bringing you news from around the world, in your language.</p>
             <div class="copyright">
                 <p>&copy; 2024 News Platter. All rights reserved.</p>
@@ -1054,6 +1215,65 @@
     </footer>
 
     <script>
+        // 무한 캐러셀 기능
+        let currentSlide = 0;
+        const totalSlides = 4; // 실제 슬라이드 개수 (복제본 제외)
+        const track = document.getElementById('carousel-track');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function updateCarousel() {
+            const translateX = -currentSlide * 20; // 각 슬라이드는 20%
+            track.style.transform = `translateX(${translateX}%)`;
+            
+            // 인디케이터 업데이트
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            
+            if (currentSlide >= totalSlides) {
+                // 마지막 슬라이드에서 다음으로 갈 때
+                track.style.transform = `translateX(-${totalSlides * 20}%)`; // 복제본으로 이동
+                
+                // 애니메이션 완료 후 첫 번째 슬라이드로 즉시 점프
+                setTimeout(() => {
+                    track.classList.add('no-transition');
+                    currentSlide = 0;
+                    track.style.transform = 'translateX(0%)';
+                    
+                    // 다음 프레임에서 transition 다시 활성화
+                    requestAnimationFrame(() => {
+                        track.classList.remove('no-transition');
+                    });
+                    
+                    // 인디케이터 업데이트
+                    indicators.forEach((indicator, index) => {
+                        indicator.classList.toggle('active', index === 0);
+                    });
+                }, 600); // transition 시간과 맞춤
+                
+                return;
+            }
+            
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlide = index;
+                updateCarousel();
+            }
+        }
+
+        // 5초마다 자동 슬라이드
+        setInterval(nextSlide, 5000);
+
+        // 초기 설정
+        updateCarousel();
+
         // Mobile menu toggle
         function toggleMenu() {
             const menu = document.getElementById('nav-menu');
@@ -1097,7 +1317,7 @@
                 }
             });
 
-            // Update header background based on scroll position (starts immediately when scrolling)
+            // Update header background based on scroll position
             if (window.pageYOffset > 50) {
                 header.classList.add('scrolled');
             } else {
