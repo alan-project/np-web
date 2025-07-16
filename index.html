@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/newsplatter-icon.png">
+    <link rel="icon" type="image/png" sizes="36x36" href="assets/images/newsplatter-icon.png">
     <link rel="apple-touch-icon" href="assets/images/newsplatter-icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,8 +67,9 @@
             color: #dc2626;
         }
 
+        /* PLATTER 텍스트 항상 블랙 */
         .logo .platter-text {
-            color: inherit; /* 헤더 색상 상속 */
+            color: #000000 !important; /* 항상 블랙 */
         }
 
         .logo-icon {
@@ -99,22 +100,24 @@
             position: relative;
         }
 
-        /* 메뉴 하이라이트 높이 증가 */
+        /* 메뉴 호버 효과 - 배경 대신 테두리만 */
         nav a {
             color: inherit; /* 헤더 색상 상속 */
             text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 1rem 1.5rem; /* 높이 증가 (0.6rem → 1rem) */
-            border-radius: 12px; /* 더 둥근 모서리 */
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
             font-weight: 500;
             font-size: 1rem;
             display: block;
+            border: 2px solid transparent; /* 투명한 테두리 */
         }
 
         nav a:hover, nav a.active {
             color: #dc2626;
-            background: rgba(220, 38, 38, 0.15);
+            border-color: #dc2626; /* 빨간 테두리만 */
+            background: transparent; /* 배경 제거 */
             transform: scale(1.05);
         }
 
@@ -148,7 +151,7 @@
 
         .dropdown-content a {
             display: block;
-            padding: 15px 20px; /* 드롭다운도 높이 증가 */
+            padding: 15px 20px;
             color: #333;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -157,11 +160,13 @@
             background: none;
             font-size: 1rem;
             font-weight: 500;
+            border: 2px solid transparent;
         }
 
         .dropdown-content a:hover {
-            background: rgba(220, 38, 38, 0.1);
+            border-color: #dc2626;
             color: #dc2626;
+            background: transparent;
             transform: none;
         }
 
@@ -691,6 +696,9 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
         }
 
         .country-card:hover {
@@ -909,10 +917,10 @@
                         <li class="features-dropdown">
                             <a href="#features" class="nav-link">Features</a>
                             <div class="dropdown-content">
-                                <a href="#feature1">Feature 1: Translation</a>
-                                <a href="#feature2">Feature 2: Real-Time</a>
-                                <a href="#feature3">Feature 3: Bookmarks</a>
-                                <a href="#feature4">Feature 4: Notifications</a>
+                                <a href="#feature1">Translation</a>
+                                <a href="#feature2">Real-Time</a>
+                                <a href="#feature3">Bookmarks</a>
+                                <a href="#feature4">Notifications</a>
                             </div>
                         </li>
                         <li><a href="#countries" class="nav-link">Countries</a></li>
@@ -931,12 +939,12 @@
             <div class="hero-content">
                 <div class="hero-text fade-in">
                     <h1>
-                        <span class="news-text">NEWS</span> <span class="platter-text">PLATTER</span>:<br>
-                        <span class="highlight">served in your language</span>
+                        <span class="highlight">Real-Time News</span><br>
+                        <span class="highlight">Served in Your Language</span>
                     </h1>
                     <p>Get breaking news from around the world in your preferred language. Real-time updates, smart translations, and personalized content delivered instantly to your device.</p>
                     <div class="app-badges">
-                        <a href="#" class="badge">
+                        <a href="https://play.google.com/store/apps/developer?id=Alan+Project&hl=en" target="_blank" class="badge">
                             <img src="assets/images/googleplay.png" alt="Get it on Google Play">
                         </a>
                         <a href="#" class="badge">
@@ -1056,82 +1064,85 @@
             <p class="section-subtitle fade-in">Bringing News Platter to countries around the world, one launch at a time</p>
             
             <div class="countries-grid fade-in">
-                <!-- Canada - Active -->
-                <div class="country-card active">
+                <!-- Canada - LIVE -->
+                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.canada" target="_blank" class="country-card active">
                     <div class="launch-badge">LIVE</div>
                     <div class="country-flag">
-                        <img src="assets/images/flag-canada.png" alt="Canada Flag">
+                        <img src="assets/images/canada_flag.png" alt="Canada Flag">
                     </div>
                     <div class="country-name">Canada</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Successfully launched with full multi-language support including English and French. 
-                        Serving Canadian users with localized news content.
+                        Successfully launched with full multi-language support including English. 
+                        <br><b>Languages: 中文, हिंदी,العربية, 한국어, English</b>
                     </div>
-                </div>
+                </a>
 
-                <!-- Germany - Coming Soon -->
-                <div class="country-card coming-soon">
+                <!-- Germany - LIVE -->
+                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.germany" target="_blank" class="country-card active">
+                    <div class="launch-badge">LIVE</div>
                     <div class="country-flag">
-                        <img src="assets/images/flag-germany.png" alt="Germany Flag">
+                        <img src="assets/images/germany_flag.png" alt="Germany Flag">
                     </div>
                     <div class="country-name">Germany</div>
-                    <div class="country-status">Coming Soon</div>
+                    <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Preparing launch with German language support and local news partnerships. 
-                        Expected availability in Q2 2024.
+                        Successfully launched with German language support and local news partnerships. 
+                        <br><b>Languages: Türkçe, العربية, Русский, Română, Deutsch, English</b>
                     </div>
-                </div>
+                </a>
 
-                <!-- Saudi Arabia - Coming Soon -->
-                <div class="country-card coming-soon">
+                <!-- Saudi Arabia - LIVE -->
+                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.saudi" target="_blank" class="country-card active">
+                    <div class="launch-badge">LIVE</div>
                     <div class="country-flag">
-                        <img src="assets/images/flag-saudi-arabia.png" alt="Saudi Arabia Flag">
+                        <img src="assets/images/saudi_flag.png" alt="Saudi Arabia Flag">
                     </div>
                     <div class="country-name">Saudi Arabia</div>
-                    <div class="country-status">Coming Soon</div>
+                    <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Developing Arabic language integration and regional news sources. 
-                        Launch planned for Q3 2024.
+                        Successfully launched with Arabic language integration and regional news sources. 
+                        <br><b>Languages: हिंदी, اردو, বাংলা, العربية, English</b>
                     </div>
-                </div>
+                </a>
 
-                <!-- South Korea - Coming Soon -->
+                <!-- UAE - LIVE -->
+                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.uae" target="_blank" class="country-card active">
+                    <div class="launch-badge">LIVE</div>
+                    <div class="country-flag">
+                        <img src="assets/images/uae_flag.png" alt="UAE Flag">
+                    </div>
+                    <div class="country-name">UAE</div>
+                    <div class="country-status">Now Available</div>
+                    <div class="country-description">
+                        Successfully launched with Arabic and English language support. 
+                        <br><b>Languages:  हिंदी, اردو, മലയാളം, العربية, English</b>
+                    </div>
+                </a>
+
+                <!-- Russia - LIVE -->
+                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.russia" target="_blank" class="country-card active">
+                    <div class="launch-badge">LIVE</div>
+                    <div class="country-flag">
+                        <img src="assets/images/russia_flag.png" alt="Russia Flag">
+                    </div>
+                    <div class="country-name">Russia</div>
+                    <div class="country-status">Now Available</div>
+                    <div class="country-description">
+                        Successfully launched with Russian language support and local news. 
+                        <br><b>Languages: Oʻzbekcha, Тоҷикӣ, Українська, Русский, English</b>
+                    </div>
+                </a>
+
+                <!-- Coming Soon Countries with Question Marks -->
                 <div class="country-card coming-soon">
                     <div class="country-flag">
-                        <img src="assets/images/flag-south-korea.png" alt="South Korea Flag">
+                        <span style="font-size: 2rem;">❓</span>
                     </div>
-                    <div class="country-name">South Korea</div>
+                    <div class="country-name">More Countries</div>
                     <div class="country-status">Coming Soon</div>
                     <div class="country-description">
-                        Building Korean language support and local media partnerships. 
-                        Targeting Q4 2024 release.
-                    </div>
-                </div>
-
-                <!-- India - Coming Soon -->
-                <div class="country-card coming-soon">
-                    <div class="country-flag">
-                        <img src="assets/images/flag-india.png" alt="India Flag">
-                    </div>
-                    <div class="country-name">India</div>
-                    <div class="country-status">Coming Soon</div>
-                    <div class="country-description">
-                        Preparing multi-language support for Hindi, Tamil, and other regional languages. 
-                        Launch expected in 2025.
-                    </div>
-                </div>
-
-                <!-- China - Coming Soon -->
-                <div class="country-card coming-soon">
-                    <div class="country-flag">
-                        <img src="assets/images/flag-china.png" alt="China Flag">
-                    </div>
-                    <div class="country-name">China</div>
-                    <div class="country-status">Coming Soon</div>
-                    <div class="country-description">
-                        Developing Simplified Chinese support and compliance with local regulations. 
-                        Timeline to be announced.
+                        We're expanding to more countries soon. Stay tuned for updates on new launches and regional availability.
                     </div>
                 </div>
             </div>
@@ -1221,11 +1232,11 @@
             </div>
             <p class="footer-description">Bringing you news from around the world, in your language.</p>
 
-                <div class="footer-links" style="margin-top: 1rem;">
-      <a href="terms_privacy.html" style="color: #9ca3af; text-decoration: none; margin: 0 0.5rem;">
-        Terms & Privacy
-      </a>
-    </div>
+            <div class="footer-links" style="margin-top: 1rem;">
+                <a href="terms_privacy.html" style="color: #9ca3af; text-decoration: none; margin: 0 0.5rem;">
+                    Terms & Privacy
+                </a>
+            </div>
 
             <div class="copyright">
                 <p>&copy; 2024 News Platter. All rights reserved.</p>
