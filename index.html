@@ -6,7 +6,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Platter - Served in Your Language</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="News Platter delivers global news in your preferred language. Multi-language translation, real-time updates, and personalized content from around the world.">
+    <meta name="keywords" content="news, translation, multi-language, global news, real-time updates, news app, international news, Hindi, Arabic, Chinese, Korean, English">
+    <meta name="author" content="News Platter">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://newsplatter.net/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="News Platter - Served in Your Language">
+    <meta property="og:description" content="News Platter delivers global news in your preferred language. Multi-language translation, real-time updates, and personalized content from around the world.">
+    <meta property="og:image" content="https://newsplatter.net/assets/images/newsplatter-icon.png">
+    <meta property="og:url" content="https://newsplatter.net/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="News Platter">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="News Platter - Served in Your Language">
+    <meta name="twitter:description" content="News Platter delivers global news in your preferred language. Multi-language translation, real-time updates, and personalized content from around the world.">
+    <meta name="twitter:image" content="https://newsplatter.net/assets/images/newsplatter-icon.png">
+    
+    <!-- Language and Location -->
+    <meta name="language" content="en">
+    <meta name="geo.region" content="Global">
+    <meta name="geo.placename" content="Worldwide">
+    
+    <!-- App Store Meta Tags -->
+    <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID">
+    <meta name="google-play-app" content="app-id=com.newsplatter.canada">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,900&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data - Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "News Platter",
+        "url": "https://newsplatter.net",
+        "description": "News Platter delivers global news in your preferred language. Multi-language translation, real-time updates, and personalized content from around the world.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://newsplatter.net/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "News Platter",
+        "applicationCategory": "NewsApplication",
+        "operatingSystem": "Android",
+        "description": "Multi-language news application delivering global news in your preferred language with real-time translation and personalized content.",
+        "downloadUrl": "https://play.google.com/store/apps/developer?id=Alan+Project&hl=en",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "News Platter"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "News Platter",
+        "url": "https://newsplatter.net",
+        "logo": "https://newsplatter.net/assets/images/newsplatter-icon.png",
+        "description": "News Platter delivers global news in your preferred language with multi-language translation and real-time updates.",
+        "sameAs": [
+            "https://play.google.com/store/apps/developer?id=Alan+Project&hl=en"
+        ]
+    }
+    </script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
     <style>
         * {
             margin: 0;
