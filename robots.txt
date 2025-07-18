@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://newsplatter.net/sitemap.xml
+
+# Disallow crawling of certain directories if any
+# Disallow: /admin/
+# Disallow: /private/
