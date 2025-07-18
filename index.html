@@ -289,7 +289,6 @@
             z-index: 1;
         }
 
-        /* 모든 텍스트 폰트 통일 - 어두운 배경용 */
         .hero-text h1 {
             font-family: 'Inter', sans-serif;
             font-style: italic;
@@ -839,7 +838,20 @@
             text-transform: uppercase;
         }
 
-        /* Responsive - 모바일 순서 조정 */
+        @media (min-width: 1200px) {
+            .countries-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .countries-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             .mobile-menu {
                 display: block;
@@ -864,7 +876,7 @@
             }
 
             nav ul.active a {
-                color: #333; /* 모바일 메뉴에서는 어두운 색상 */
+                color: #333;
             }
 
             .hero-content {
@@ -910,12 +922,35 @@
             }
 
             .features-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
             }
 
             .feature-card {
-                padding: 2rem;
+                padding: 1.5rem 1rem;
+                min-height: auto;
+            }
+            
+            @media (max-width: 768px) {
+                .feature-card p {
+                    display: none;
+                }
+                
+                .feature-card h3 {
+                    font-size: 1.2rem;
+                    margin-bottom: 0;
+                }
+                
+                .feature-icon {
+                    width: 60px;
+                    height: 60px;
+                    margin: 0 auto 1rem;
+                }
+                
+                .feature-icon img {
+                    width: 35px;
+                    height: 35px;
+                }
             }
 
             .form-row, .form-row-three {
@@ -928,7 +963,35 @@
             }
 
             .team-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+            
+            @media (max-width: 768px) {
+                .team-member {
+                    padding: 1.5rem 1rem;
+                    min-height: auto;
+                }
+                
+                .member-photo {
+                    width: 80px;
+                    height: 80px;
+                    margin: 0 auto 1rem;
+                }
+                
+                .member-name {
+                    font-size: 1.2rem;
+                    margin-bottom: 0.3rem;
+                }
+                
+                .member-role {
+                    font-size: 0.9rem;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .member-description {
+                    display: none;
+                }
             }
 
             .section-title {
@@ -940,8 +1003,38 @@
             }
 
             .countries-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 1.5rem;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 1rem;
+            }
+            
+            @media (max-width: 768px) {
+                .country-card {
+                    padding: 1rem;
+                    min-height: auto;
+                }
+                
+                .country-name {
+                    font-size: 0.9rem;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .country-status,
+                .country-description {
+                    display: none;
+                }
+                
+                .country-flag {
+                    width: 60px;
+                    height: 60px;
+                    margin: 0 auto 0.5rem;
+                }
+                
+                .launch-badge {
+                    top: 5px;
+                    right: 5px;
+                    padding: 2px 8px;
+                    font-size: 0.6rem;
+                }
             }
         }
 
