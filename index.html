@@ -26,16 +26,23 @@
             padding: 0 20px;
         }
 
-        /* Header - 투명에서 하얀색으로 전환 */
+        /* Header - 검정에서 하얀색으로 전환 */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: transparent; /* 초기에는 투명 */
+            background: rgba(0, 0, 0, 0.8); /* 초기에는 반투명 검정 */
+            backdrop-filter: blur(10px);
             color: white; /* 초기 텍스트는 흰색 */
             z-index: 1000;
             padding: 1.5rem 0;
             transition: all 0.4s ease;
+        }
+
+        /* 헤더 텍스트에 그림자 추가 */
+        header .logo,
+        header nav a {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         header.scrolled {
@@ -44,6 +51,23 @@
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
             color: #333; /* 스크롤 시 텍스트 어두워짐 */
+        }
+
+        /* 스크롤 시 텍스트 색상 조정 */
+        header.scrolled .logo,
+        header.scrolled nav a {
+            text-shadow: none;
+        }
+
+        /* 스크롤 시 메뉴 색상 조정 */
+        header.scrolled nav a {
+            color: rgba(51, 51, 51, 0.6); /* 기본 회색 */
+        }
+
+        header.scrolled nav a:hover,
+        header.scrolled nav a.active {
+            color: #333; /* 선택/호버 시 검정 */
+            border-color: #333; /* 검정 테두리 */
         }
 
         .logo {
@@ -67,20 +91,25 @@
             color: #dc2626;
         }
 
-        /* PLATTER 텍스트 항상 블랙 */
+        /* PLATTER 텍스트 - 어두운 배경에서는 흰색 */
         .logo .platter-text {
-            color: #000000 !important; /* 항상 블랙 */
+            color: white !important;
+        }
+
+        /* 스크롤 시 PLATTER 텍스트는 검은색 */
+        header.scrolled .logo .platter-text {
+            color: #000000 !important;
         }
 
         .logo-icon {
-            width: 28px;
-            height: 28px;
+            width: 34px;
+            height: 34px;
             transition: all 0.4s ease;
         }
 
         header.scrolled .logo-icon {
-            width: 26px;
-            height: 26px;
+            width: 30px;
+            height: 30px;
         }
 
         .header-content {
@@ -100,9 +129,9 @@
             position: relative;
         }
 
-        /* 메뉴 호버 효과 - 배경 대신 테두리만 */
+        /* 메뉴 호버 효과 - 검정 배경에서 */
         nav a {
-            color: inherit; /* 헤더 색상 상속 */
+            color: rgba(255, 255, 255, 0.7); /* 기본은 회색빙 흰색 */
             text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -111,64 +140,16 @@
             font-weight: 500;
             font-size: 1rem;
             display: block;
-            border: 2px solid transparent; /* 투명한 테두리 */
-        }
-
-        nav a:hover, nav a.active {
-            color: #dc2626;
-            border-color: #dc2626; /* 빨간 테두리만 */
-            background: transparent; /* 배경 제거 */
-            transform: scale(1.05);
-        }
-
-        /* Features Dropdown */
-        .features-dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            min-width: 220px;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            border: 1px solid rgba(220, 38, 38, 0.2);
-        }
-
-        .features-dropdown:hover .dropdown-content {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-content a {
-            display: block;
-            padding: 15px 20px;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            margin: 4px 8px;
-            background: none;
-            font-size: 1rem;
-            font-weight: 500;
             border: 2px solid transparent;
         }
 
-        .dropdown-content a:hover {
-            border-color: #dc2626;
-            color: #dc2626;
+        nav a:hover, nav a.active {
+            color: white; /* 선택/호버 시 흰색 */
+            border-color: white; /* 흰색 테두리 */
             background: transparent;
-            transform: none;
+            transform: scale(1.05);
         }
+
 
         /* Mobile Menu */
         .mobile-menu {
@@ -181,10 +162,13 @@
             padding: 0.5rem;
         }
 
-        /* Hero Section - 깔끔한 그라데이션만 */
+        /* Hero Section - 어두운 배경 이미지 */
         .hero {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 20%, #e2e8f0 40%, #cbd5e1 50%, #e2e8f0 60%, #f8fafc 80%, #ffffff 100%);
-            color: #333;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
             padding: 120px 0 80px;
             min-height: 85vh;
             display: flex;
@@ -193,7 +177,7 @@
             overflow: hidden;
         }
 
-        /* 컬러풀한 radial gradient만 유지 */
+        /* 어두운 배경에 대한 오버레이 */
         .hero::before {
             content: '';
             position: absolute;
@@ -201,12 +185,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 15% 85%, rgba(220, 38, 38, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 35%),
-                radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.06) 0%, transparent 30%),
-                radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.06) 0%, transparent 30%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
             opacity: 1;
         }
 
@@ -219,7 +198,7 @@
             z-index: 1;
         }
 
-        /* 모든 텍스트 폰트 통일 */
+        /* 모든 텍스트 폰트 통일 - 어두운 배경용 */
         .hero-text h1 {
             font-family: 'Inter', sans-serif;
             font-style: italic;
@@ -228,6 +207,8 @@
             margin-bottom: 1.5rem;
             line-height: 1.2;
             text-transform: uppercase;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .hero-text h1 .news-text {
@@ -235,19 +216,16 @@
         }
 
         .hero-text h1 .platter-text {
-            color: #333;
+            color: white;
         }
 
         .highlight {
             font-family: 'Inter', sans-serif;
             font-style: italic;
             font-weight: 900;
-            color: #6b7280;
-            background: linear-gradient(45deg, #6b7280, #9ca3af);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: lowercase;
+            color: white;
+            text-transform: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .hero-text p {
@@ -255,8 +233,9 @@
             font-weight: 500;
             font-size: 1.3rem;
             margin-bottom: 2.5rem;
-            color: #4b5563;
+            color: #e2e8f0;
             line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .app-badges {
@@ -284,75 +263,60 @@
             transform: scale(1.05);
         }
 
-        /* Phone Carousel */
+        /* Phone Stack Layout */
         .phone-mockup {
             text-align: center;
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
-        .phone-carousel {
+        .phone-stack {
             position: relative;
             width: 100%;
             height: 600px;
-            overflow: hidden;
-            border-radius: 0;
-        }
-
-        .carousel-track {
-            display: flex;
-            width: 2000%;
-            height: 100%;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transform: translateX(-40%);
-        }
-
-        .carousel-track.no-transition {
-            transition: none;
-        }
-
-        .phone-slide {
-            width: 5%;
-            height: 100%;
-            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .phone-slide img {
+        .phone-item {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .phone-item img {
             width: auto;
             height: 550px;
             max-width: 100%;
             object-fit: contain;
             border-radius: 0;
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));
         }
 
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
+        .phone-back {
+            transform: translateX(-120px) translateY(0) rotate(0deg) scale(0.7);
+            z-index: 1;
+            opacity: 1;
         }
 
-        .indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .phone-middle {
+            transform: translateX(120px) translateY(0) rotate(0deg) scale(0.7);
+            z-index: 2;
+            opacity: 1;
         }
 
-        .indicator.active {
-            background: #dc2626;
-            transform: scale(1.2);
+        .phone-front {
+            transform: translateX(0) translateY(0) rotate(0deg) scale(0.85);
+            z-index: 3;
+            opacity: 1;
         }
 
-        .indicator:hover {
-            background: rgba(220, 38, 38, 0.7);
+        .phone-item:hover {
+            transform: scale(1.05) !important;
+            z-index: 10 !important;
+            opacity: 1 !important;
         }
 
         /* Section Styles */
@@ -383,73 +347,64 @@
             background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
         }
 
-        .feature-item {
-            background: white;
-            margin-bottom: 4rem;
-            padding: 4rem 3rem;
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            border-bottom: 1px solid #e5e7eb;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f3f4;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature-item:hover {
-            background: #fafbfc;
-        }
-
-        .feature-item:nth-child(even) .feature-content {
-            order: 2;
-        }
-
-        .feature-item:nth-child(even) .feature-image {
-            order: 1;
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            border-color: #dc2626;
         }
 
         .feature-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(45deg, #dc2626, #ef4444);
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin: 0 auto 2rem;
             color: white;
-            font-size: 1.8rem;
+            font-size: 2rem;
             box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
-            padding: 15px;
         }
 
         .feature-icon img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             filter: brightness(0) invert(1);
         }
 
-        .feature-content h3 {
-            font-size: 2.2rem;
+        .feature-card h3 {
+            font-size: 1.8rem;
             margin-bottom: 1.5rem;
             color: #1a1a1a;
             font-weight: 600;
         }
 
-        .feature-content p {
-            font-size: 1.2rem;
+        .feature-card p {
+            font-size: 1.1rem;
             color: #4b5563;
-            line-height: 1.8;
-        }
-
-        .feature-phone-img {
-            width: auto;
-            height: auto;
-            max-width: 220px;
-            max-height: 400px;
-            object-fit: contain;
-            border-radius: 0;
-            margin: 0 auto;
-            display: block;
+            line-height: 1.6;
+            margin-bottom: 0;
         }
 
         /* Teams Section */
@@ -524,6 +479,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             border-radius: 50%;
         }
 
@@ -838,24 +794,37 @@
                 font-size: 2.5rem;
             }
 
-            .phone-carousel {
+            .phone-stack {
                 height: 450px;
             }
 
-            .phone-slide img {
+            .phone-item img {
                 height: 400px;
                 max-width: 100%;
             }
 
-            .feature-item {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding: 3rem 1rem;
+            .phone-back {
+                transform: translateX(-80px) translateY(0) rotate(0deg) scale(0.6);
+                opacity: 1;
             }
 
-            .feature-item:nth-child(even) .feature-content,
-            .feature-item:nth-child(even) .feature-image {
-                order: unset;
+            .phone-middle {
+                transform: translateX(80px) translateY(0) rotate(0deg) scale(0.6);
+                opacity: 1;
+            }
+
+            .phone-front {
+                transform: translateX(0) translateY(0) rotate(0deg) scale(0.75);
+                opacity: 1;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-card {
+                padding: 2rem;
             }
 
             .form-row, .form-row-three {
@@ -914,15 +883,7 @@
                 <nav>
                     <ul id="nav-menu">
                         <li><a href="#home" class="nav-link">Home</a></li>
-                        <li class="features-dropdown">
-                            <a href="#features" class="nav-link">Features</a>
-                            <div class="dropdown-content">
-                                <a href="#feature1">Translation</a>
-                                <a href="#feature2">Real-Time</a>
-                                <a href="#feature3">Bookmarks</a>
-                                <a href="#feature4">Notifications</a>
-                            </div>
-                        </li>
+                        <li><a href="#features" class="nav-link">Features</a></li>
                         <li><a href="#countries" class="nav-link">Countries</a></li>
                         <li><a href="#teams" class="nav-link">Teams</a></li>
                         <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -939,10 +900,10 @@
             <div class="hero-content">
                 <div class="hero-text fade-in">
                     <h1>
-                        <span class="highlight">Real-Time News</span><br>
-                        <span class="highlight">Served in Your Language</span>
+                        <span class="highlight">NEWS PLATTER,</span><br>
+                        <span class="highlight">served in your language</span>
                     </h1>
-                    <p>Get breaking news from around the world in your preferred language. Real-time updates, smart translations, and personalized content delivered instantly to your device.</p>
+                    <p>Break language barriers and stay informed with news from around the world. Smart AI translation, personalized content, and instant updates - all in your preferred language.</p>
                     <div class="app-badges">
                         <a href="https://play.google.com/store/apps/developer?id=Alan+Project&hl=en" target="_blank" class="badge">
                             <img src="assets/images/googleplay.png" alt="Get it on Google Play">
@@ -953,40 +914,16 @@
                     </div>
                 </div>
                 <div class="phone-mockup fade-in">
-                    <div class="phone-carousel">
-                        <div class="carousel-track" id="carousel-track">
-                            <!-- 첫 번째 세트 (무한 루프용) -->
-                            <div class="phone-slide"><img src="assets/images/mock_main_1.png" alt="News Platter App - Home"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_2.png" alt="News Platter App - Features"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_3.png" alt="News Platter App - Translation"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_4.png" alt="News Platter App - Settings"></div>
-                            <!-- 두 번째 세트 (메인 표시용) -->
-                            <div class="phone-slide"><img src="assets/images/mock_main_1.png" alt="News Platter App - Home"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_2.png" alt="News Platter App - Features"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_3.png" alt="News Platter App - Translation"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_4.png" alt="News Platter App - Settings"></div>
-                            <!-- 세 번째 세트 (무한 루프용) -->
-                            <div class="phone-slide"><img src="assets/images/mock_main_1.png" alt="News Platter App - Home"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_2.png" alt="News Platter App - Features"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_3.png" alt="News Platter App - Translation"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_4.png" alt="News Platter App - Settings"></div>
-                            <!-- 네 번째 세트 (무한 루프용) -->
-                            <div class="phone-slide"><img src="assets/images/mock_main_1.png" alt="News Platter App - Home"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_2.png" alt="News Platter App - Features"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_3.png" alt="News Platter App - Translation"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_4.png" alt="News Platter App - Settings"></div>
-                            <!-- 다섯 번째 세트 (무한 루프용) -->
-                            <div class="phone-slide"><img src="assets/images/mock_main_1.png" alt="News Platter App - Home"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_2.png" alt="News Platter App - Features"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_3.png" alt="News Platter App - Translation"></div>
-                            <div class="phone-slide"><img src="assets/images/mock_main_4.png" alt="News Platter App - Settings"></div>
+                    <div class="phone-stack">
+                        <div class="phone-item phone-back">
+                            <img src="assets/images/mock_main_3.png" alt="News Platter App - Translation">
                         </div>
-                    </div>
-                    <div class="carousel-indicators">
-                        <div class="indicator active" onclick="goToSlide(0)"></div>
-                        <div class="indicator" onclick="goToSlide(1)"></div>
-                        <div class="indicator" onclick="goToSlide(2)"></div>
-                        <div class="indicator" onclick="goToSlide(3)"></div>
+                        <div class="phone-item phone-middle">
+                            <img src="assets/images/mock_main_2.png" alt="News Platter App - Features">
+                        </div>
+                        <div class="phone-item phone-front">
+                            <img src="assets/images/mock_main_1.png" alt="News Platter App - Home">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -996,62 +933,44 @@
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title fade-in">Powerful Features</h2>
+            <h2 class="section-title fade-in">Your News, Made Better</h2>
             <p class="section-subtitle fade-in">Discover what makes News Platter the ultimate news companion</p>
             
-            <!-- Feature 1 -->
-            <div id="feature1" class="feature-item fade-in">
-                <div class="feature-content">
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card fade-in">
                     <div class="feature-icon">
-                        <img src="assets/images/translation-icon.png" alt="Translation Icon">
+                        <img src="assets/images/language.png" alt="Language Icon">
                     </div>
                     <h3>Multi-Language Translation</h3>
                     <p>Get news in your preferred language with real-time translation support for Hindi, Arabic, Chinese, Korean, English and more. Our AI-powered translation ensures accuracy and context preservation across all supported languages.</p>
                 </div>
-                <div class="feature-image">
-                    <img src="assets/images/feature-translation-phone.png" alt="Translation Feature" class="feature-phone-img">
-                </div>
-            </div>
 
-            <!-- Feature 2 -->
-            <div id="feature2" class="feature-item fade-in">
-                <div class="feature-content">
+                <!-- Feature 2 -->
+                <div class="feature-card fade-in">
                     <div class="feature-icon">
-                        <img src="assets/images/realtime-icon.png" alt="Real-time Icon">
+                        <img src="assets/images/refresh.png" alt="Refresh Icon">
                     </div>
                     <h3>Real-Time Updates</h3>
                     <p>Stay updated with breaking news as it happens. Our advanced system delivers the latest news instantly from trusted sources worldwide, ensuring you're always informed about important events as they unfold.</p>
                 </div>
-                <div class="feature-image">
-                    <img src="assets/images/feature-realtime-phone.png" alt="Real-time Feature" class="feature-phone-img">
-                </div>
-            </div>
 
-            <!-- Feature 3 -->
-            <div id="feature3" class="feature-item fade-in">
-                <div class="feature-content">
+                <!-- Feature 3 -->
+                <div class="feature-card fade-in">
                     <div class="feature-icon">
-                        <img src="assets/images/bookmark-icon.png" alt="Bookmark Icon">
+                        <img src="assets/images/bookmark.png" alt="Bookmark Icon">
                     </div>
                     <h3>Smart Bookmarks</h3>
                     <p>Save articles you want to read later with intelligent categorization and easy access across all your devices. Our smart system automatically organizes your saved content by topic, date, and relevance.</p>
                 </div>
-                <div class="feature-image">
-                    <img src="assets/images/feature-bookmark-phone.png" alt="Bookmark Feature" class="feature-phone-img">
-                </div>
-            </div>
 
-            <!-- Feature 4 -->
-            <div id="feature4" class="feature-item fade-in">
-                <div class="feature-content">
+                <!-- Feature 4 -->
+                <div class="feature-card fade-in">
                     <div class="feature-icon">
-                        <img src="assets/images/notification-icon.png" alt="Notification Icon">
+                        <img src="assets/images/notification.png" alt="Notification Icon">
                     </div>
                     <h3>Push Notifications</h3>
                     <p>Never miss important news with customizable push notifications tailored to your interests and location. Set up alerts for breaking news, specific topics, or regions that matter most to you.</p>
-                </div>
-                <div class="feature-image">
-                    <img src="assets/images/feature-notification-phone.png" alt="Notification Feature" class="feature-phone-img">
                 </div>
             </div>
         </div>
@@ -1158,29 +1077,29 @@
             <div class="team-grid">
                 <div class="team-member">
                     <div class="member-photo">
-                        <img src="assets/images/team-alex-chen.jpg" alt="Alex Chen">
+                        <img src="assets/images/alan.jpg" alt="Alan">
                     </div>
-                    <div class="member-name">Alex Chen</div>
-                    <div class="member-role">Lead Developer</div>
-                    <div class="member-description">Full-stack developer with 8+ years experience in mobile app development and AI integration. Passionate about creating seamless user experiences.</div>
+                    <div class="member-name">Alan</div>
+                    <div class="member-role">Mobile Developer<br>Member of Late Night Devs</div>
+                    <div class="member-description">Passionate mobile app developer specializing in Android, Flutter and AI integration. The one-man army behind News Platter — fueled by late-night code sprints and too much coffee.</div>
                 </div>
                 
                 <div class="team-member">
                     <div class="member-photo">
-                        <img src="assets/images/team-sarah-kim.jpg" alt="Sarah Kim">
+                        <img src="assets/images/elin.png" alt="Elin">
                     </div>
-                    <div class="member-name">Sarah Kim</div>
-                    <div class="member-role">UI/UX Designer</div>
-                    <div class="member-description">Creative designer passionate about user-centered design and accessibility for global audiences. Expert in cross-cultural design principles.</div>
+                    <div class="member-name">Elin</div>
+                    <div class="member-role">UI/UX Designer<br>&nbsp;</div>
+                    <div class="member-description">Mastermind of UI/UX concepts and design magic. Brings style, structure, and sanity to the app’s visual experience. Also gives honest feedback, whether asked for or not.</div>
                 </div>
                 
                 <div class="team-member">
                     <div class="member-photo">
-                        <img src="assets/images/team-michael-rodriguez.jpg" alt="Michael Rodriguez">
+                        <img src="assets/images/joyel.png" alt="Joyel">
                     </div>
-                    <div class="member-name">Michael Rodriguez</div>
-                    <div class="member-role">Marketing Director</div>
-                    <div class="member-description">Digital marketing expert specializing in app growth and user acquisition across multiple international markets and demographics.</div>
+                    <div class="member-name">Joyel</div>
+                    <div class="member-role">Chief Idea Officer<br>&nbsp;</div>
+                    <div class="member-description">A constant source of fresh ideas, perspective shifts, and emotional energy. She keeps the team inspired, grounded, and occasionally laughing</div>
                 </div>
             </div>
         </div>
@@ -1192,7 +1111,11 @@
             <h2 class="section-title">Get in Touch</h2>
             <p class="section-subtitle">Have questions or feedback? We'd love to hear from you and help you get started.</p>
             
-            <form class="contact-form">
+            <form class="contact-form" id="contact-form">
+                <!-- Formspree 설정 -->
+                <input type="hidden" name="_subject" value="News Platter - New Contact Form Message">
+                <input type="hidden" name="_cc" value="banana205@gmail.com">
+                
                 <div class="form-row-three">
                     <div class="form-group">
                         <label for="name">Full Name</label>
@@ -1227,8 +1150,8 @@
     <footer>
         <div class="container">
             <div class="footer-logo">
-                <img src="assets/images/globe-icon.png" alt="Globe Icon">
-                <span class="news-text">NEWS</span> <span class="platter-text">PLATTER</span>
+                <img src="assets/images/newsplatter-icon.png" alt="News Platter Icon">
+                <span class="news-text">News</span> <span class="platter-text">Platter</span>
             </div>
             <p class="footer-description">Bringing you news from around the world, in your language.</p>
 
@@ -1239,77 +1162,13 @@
             </div>
 
             <div class="copyright">
-                <p>&copy; 2024 News Platter. All rights reserved.</p>
+                <p>&copy; 5 News Platter. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // 완전한 무한 캐러셀 시스템
-        let currentSlide = 0;
-        const totalSlides = 4;
-        const track = document.getElementById('carousel-track');
-        const indicators = document.querySelectorAll('.indicator');
-        let autoSlideInterval;
-
-        function updateIndicators() {
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentSlide);
-            });
-        }
-
-        function moveToSlide(targetSlide, instant = false) {
-            const position = -40 - (targetSlide * 5);
-            
-            if (instant) {
-                track.classList.add('no-transition');
-                track.style.transform = `translateX(${position}%)`;
-                requestAnimationFrame(() => {
-                    track.classList.remove('no-transition');
-                });
-            } else {
-                track.style.transform = `translateX(${position}%)`;
-            }
-            
-            currentSlide = targetSlide;
-            updateIndicators();
-        }
-
-        function nextSlide() {
-            const nextIndex = (currentSlide + 1) % totalSlides;
-            
-            if (currentSlide === 3 && nextIndex === 0) {
-                track.style.transform = 'translateX(-60%)';
-                
-                setTimeout(() => {
-                    moveToSlide(0, true);
-                }, 800);
-            } else {
-                moveToSlide(nextIndex);
-            }
-        }
-
-        function goToSlide(index) {
-            if (index === currentSlide) return;
-            moveToSlide(index);
-        }
-
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(nextSlide, 5000);
-        }
-
-        function stopAutoSlide() {
-            clearInterval(autoSlideInterval);
-        }
-
-        // 초기 설정
-        moveToSlide(0, true);
-        startAutoSlide();
-
-        // 마우스 호버 시 자동 슬라이드 일시정지
-        const carousel = document.querySelector('.phone-carousel');
-        carousel.addEventListener('mouseenter', stopAutoSlide);
-        carousel.addEventListener('mouseleave', startAutoSlide);
+        // Phone mockup hover effects are handled by CSS
 
         // Mobile menu toggle
         function toggleMenu() {
@@ -1355,7 +1214,11 @@
             });
 
             // Update header background based on scroll position
-            if (window.pageYOffset > 50) {
+            // Hero 섹션이 완전히 사라진 후에만 헤더 배경 변경
+            const heroSection = document.querySelector('.hero');
+            const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+            
+            if (window.pageYOffset >= heroBottom - 100) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
@@ -1382,23 +1245,45 @@
             });
         }
 
-        // Contact form submission
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+        // Handle contact form submission with AJAX
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simple form validation
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.submit-btn');
             
-            if (name && email && subject && message) {
-                alert('Thank you for your message! We will get back to you soon.');
-                this.reset();
-            } else {
-                alert('Please fill in all required fields.');
-            }
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            // Send to Formspree
+            fetch('https://formspree.io/f/mkgzgrwn', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Success - clear form and show message
+                    form.reset();
+                    alert('Thank you for your message! We will get back to you soon.');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                alert('Sorry, there was an error sending your message. Please try again.');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            });
         });
 
         // Event listeners

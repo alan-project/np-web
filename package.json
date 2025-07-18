@@ -1,0 +1,43 @@
+{
+  "name": "news-platter-web",
+  "version": "1.0.0",
+  "description": "News Platter - Landing page and promotional website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --host=localhost --port=3000 --entry-file=index.html",
+    "start": "npm run dev",
+    "build": "npm run optimize-images && npm run validate",
+    "validate": "html-validate *.html",
+    "lint": "npm run validate",
+    "optimize-images": "imagemin assets/images/*.{png,jpg,jpeg} --out-dir=assets/images/optimized",
+    "compress": "gzip -k -f *.html *.css *.js",
+    "serve": "http-server . -p 8080 -o",
+    "deploy-check": "npm run validate && npm run optimize-images",
+    "clean": "rm -rf assets/images/optimized && rm -f *.gz"
+  },
+  "keywords": [
+    "news",
+    "platter",
+    "static-site",
+    "landing-page"
+  ],
+  "author": "Alan Kim",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "http-server": "^14.1.1",
+    "html-validate": "^8.7.4",
+    "imagemin": "^8.0.1",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-mozjpeg": "^10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alankim/news-platter-web.git"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
