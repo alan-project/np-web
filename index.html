@@ -403,12 +403,6 @@
             opacity: 1;
         }
 
-        .phone-item:hover {
-            transform: scale(1.05) !important;
-            z-index: 10 !important;
-            opacity: 1 !important;
-        }
-
         /* Section Styles */
         section {
             padding: 80px 0;
@@ -932,7 +926,7 @@
                 overflow-x: auto;
                 overflow-y: hidden;
                 gap: 16px;
-                padding: 0 20px 20px 20px;
+                padding: 0 20px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
@@ -948,8 +942,8 @@
 
             .feature-card {
                 flex: 0 0 300px; /* 고정 너비로 스크롤 보장 */
-                padding: 1.5rem;
-                min-height: 200px;
+                padding: 1rem;
+                min-height: 120px;
                 scroll-snap-align: start;
                 margin: 0; /* 마진 제거 */
             }
@@ -993,7 +987,7 @@
                 overflow-x: auto;
                 overflow-y: hidden;
                 gap: 16px;
-                padding: 0 20px 20px 20px;
+                padding: 0 20px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
@@ -1009,8 +1003,8 @@
             
             .team-member {
                 flex: 0 0 280px; /* 고정 너비로 스크롤 보장 */
-                padding: 1.5rem;
-                min-height: 200px;
+                padding: 1rem;
+                min-height: 140px;
                 scroll-snap-align: start;
                 margin: 0; /* 마진 제거 */
             }
@@ -1036,7 +1030,7 @@
             }
 
             .section-title {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
 
             .badge img {
@@ -1058,7 +1052,7 @@
                 overflow-x: auto;
                 overflow-y: hidden;
                 gap: 16px;
-                padding: 0 20px 20px 20px;
+                padding: 0 20px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
@@ -1074,8 +1068,8 @@
             
             .country-card {
                 flex: 0 0 220px; /* 고정 너비로 스크롤 보장 */
-                padding: 1rem;
-                min-height: 150px;
+                padding: 0.8rem;
+                min-height: 120px;
                 scroll-snap-align: start;
                 margin: 0; /* 마진 제거 */
             }
@@ -1107,6 +1101,19 @@
             .section-title,
             .section-subtitle {
                 padding: 0 20px;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .countries {
+                padding: 40px 0;
+            }
+
+            .section-subtitle {
+                margin-bottom: 2rem;
+                font-size: 1.1rem;
             }
         }
 
