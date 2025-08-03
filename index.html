@@ -365,7 +365,7 @@
         .phone-stack {
             position: relative;
             width: 100%;
-            height: 600px;
+            height: 700px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -378,7 +378,7 @@
 
         .phone-item img {
             width: auto;
-            height: 550px;
+            height: 650px;
             max-width: 100%;
             object-fit: contain;
             border-radius: 0;
@@ -386,19 +386,19 @@
         }
 
         .phone-back {
-            transform: translateX(-120px) translateY(0) rotate(0deg) scale(0.7);
+            transform: translateX(-120px) translateY(0) rotate(0deg) scale(0.75);
             z-index: 1;
             opacity: 1;
         }
 
         .phone-middle {
-            transform: translateX(120px) translateY(0) rotate(0deg) scale(0.7);
+            transform: translateX(120px) translateY(0) rotate(0deg) scale(0.75);
             z-index: 2;
             opacity: 1;
         }
 
         .phone-front {
-            transform: translateX(0) translateY(0) rotate(0deg) scale(0.85);
+            transform: translateX(0) translateY(0) rotate(0deg) scale(0.9);
             z-index: 3;
             opacity: 1;
         }
@@ -785,11 +785,6 @@
             border-radius: 50%;
         }
 
-        .country-card.coming-soon .country-flag {
-            background: #e5e7eb;
-            color: #6b7280;
-        }
-
         .country-name {
             font-size: 1.4rem;
             font-weight: 600;
@@ -810,10 +805,6 @@
             letter-spacing: 0.5px;
         }
 
-        .country-card.coming-soon .country-status {
-            color: #6b7280;
-        }
-
         .country-description {
             color: #4b5563;
             line-height: 1.6;
@@ -823,6 +814,10 @@
         .country-card.coming-soon .country-description {
             color: #9ca3af;
             font-style: italic;
+        }
+
+        .country-card.coming-soon .country-status {
+            color: #6b7280;
         }
 
         .launch-badge {
@@ -852,6 +847,7 @@
             }
         }
         
+        /* Mobile Responsive with Horizontal Scrolling */
         @media (max-width: 768px) {
             .mobile-menu {
                 display: block;
@@ -903,59 +899,79 @@
             }
 
             .phone-stack {
-                height: 450px;
+                height: 500px;
             }
 
             .phone-item img {
-                height: 400px;
+                height: 450px;
                 max-width: 100%;
             }
 
             .phone-back {
-                transform: translateX(-80px) translateY(0) rotate(0deg) scale(0.6);
+                transform: translateX(-80px) translateY(0) rotate(0deg) scale(0.65);
                 opacity: 1;
             }
 
             .phone-middle {
-                transform: translateX(80px) translateY(0) rotate(0deg) scale(0.6);
+                transform: translateX(80px) translateY(0) rotate(0deg) scale(0.65);
                 opacity: 1;
             }
 
             .phone-front {
-                transform: translateX(0) translateY(0) rotate(0deg) scale(0.75);
+                transform: translateX(0) translateY(0) rotate(0deg) scale(0.8);
                 opacity: 1;
             }
 
+            /* Mobile Features - Horizontal Scroll Container */
+            .features .container {
+                padding: 0; /* 컨테이너 패딩 제거 */
+            }
+
             .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 16px;
+                padding: 0 20px 20px 20px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: 100vw; /* 전체 화면 너비 사용 */
+                margin: 0;
+                max-width: none; /* max-width 제거 */
+            }
+
+            .features-grid::-webkit-scrollbar {
+                display: none;
             }
 
             .feature-card {
-                padding: 1.5rem 1rem;
-                min-height: auto;
+                flex: 0 0 300px; /* 고정 너비로 스크롤 보장 */
+                padding: 1.5rem;
+                min-height: 200px;
+                scroll-snap-align: start;
+                margin: 0; /* 마진 제거 */
             }
             
-            @media (max-width: 768px) {
-                .feature-card p {
-                    display: none;
-                }
-                
-                .feature-card h3 {
-                    font-size: 1.2rem;
-                    margin-bottom: 0;
-                }
-                
-                .feature-icon {
-                    width: 60px;
-                    height: 60px;
-                    margin: 0 auto 1rem;
-                }
-                
-                .feature-icon img {
-                    width: 35px;
-                    height: 35px;
-                }
+            .feature-card p {
+                display: none;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.2rem;
+                margin-bottom: 0;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto 1rem;
+            }
+            
+            .feature-icon img {
+                width: 35px;
+                height: 35px;
             }
 
             .form-row, .form-row-three {
@@ -967,36 +983,56 @@
                 margin: 0 1rem;
             }
 
+            /* Mobile Teams - Horizontal Scroll Container */
+            .teams .container {
+                padding: 0; /* 컨테이너 패딩 제거 */
+            }
+
             .team-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 16px;
+                padding: 0 20px 20px 20px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: 100vw; /* 전체 화면 너비 사용 */
+                margin: 0;
+                max-width: none; /* max-width 제거 */
+            }
+
+            .team-grid::-webkit-scrollbar {
+                display: none;
             }
             
-            @media (max-width: 768px) {
-                .team-member {
-                    padding: 1.5rem 1rem;
-                    min-height: auto;
-                }
-                
-                .member-photo {
-                    width: 80px;
-                    height: 80px;
-                    margin: 0 auto 1rem;
-                }
-                
-                .member-name {
-                    font-size: 1.2rem;
-                    margin-bottom: 0.3rem;
-                }
-                
-                .member-role {
-                    font-size: 0.9rem;
-                    margin-bottom: 0.5rem;
-                }
-                
-                .member-description {
-                    display: none;
-                }
+            .team-member {
+                flex: 0 0 280px; /* 고정 너비로 스크롤 보장 */
+                padding: 1.5rem;
+                min-height: 200px;
+                scroll-snap-align: start;
+                margin: 0; /* 마진 제거 */
+            }
+            
+            .member-photo {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 1rem;
+            }
+            
+            .member-name {
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .member-role {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .member-description {
+                display: none;
             }
 
             .section-title {
@@ -1012,39 +1048,65 @@
                 gap: 1rem;
             }
 
+            /* Mobile Countries - Horizontal Scroll Container */
+            .countries .container {
+                padding: 0; /* 컨테이너 패딩 제거 */
+            }
+
             .countries-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 1rem;
+                display: flex !important;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 16px;
+                padding: 0 20px 20px 20px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: 100vw; /* 전체 화면 너비 사용 */
+                margin: 0;
+                max-width: none; /* max-width 제거 */
+            }
+
+            .countries-grid::-webkit-scrollbar {
+                display: none;
             }
             
-            @media (max-width: 768px) {
-                .country-card {
-                    padding: 1rem;
-                    min-height: auto;
-                }
-                
-                .country-name {
-                    font-size: 0.9rem;
-                    margin-bottom: 0.5rem;
-                }
-                
-                .country-status,
-                .country-description {
-                    display: none;
-                }
-                
-                .country-flag {
-                    width: 60px;
-                    height: 60px;
-                    margin: 0 auto 0.5rem;
-                }
-                
-                .launch-badge {
-                    top: 5px;
-                    right: 5px;
-                    padding: 2px 8px;
-                    font-size: 0.6rem;
-                }
+            .country-card {
+                flex: 0 0 220px; /* 고정 너비로 스크롤 보장 */
+                padding: 1rem;
+                min-height: 150px;
+                scroll-snap-align: start;
+                margin: 0; /* 마진 제거 */
+            }
+            
+            .country-name {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .country-status,
+            .country-description {
+                display: none;
+            }
+            
+            .country-flag {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto 0.5rem;
+            }
+            
+            .launch-badge {
+                top: 5px;
+                right: 5px;
+                padding: 2px 8px;
+                font-size: 0.6rem;
+            }
+
+            /* 섹션 제목과 부제목은 컨테이너 패딩 유지 */
+            .section-title,
+            .section-subtitle {
+                padding: 0 20px;
             }
         }
 
@@ -1052,16 +1114,9 @@
             scroll-behavior: smooth;
         }
 
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .country-card.coming-soon .country-flag {
+            background: #e5e7eb !important;
+            color: #6b7280 !important;
         }
     </style>
 </head>
@@ -1092,12 +1147,12 @@
     <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-text fade-in">
+                <div class="hero-text">
                     <h1>
                         <span class="highlight">NEWS PLATTER,</span><br>
                         <span class="highlight">served in your language</span>
                     </h1>
-                    <p>Break language barriers and stay informed with news from around the world. Smart AI translation, personalized content, and instant updates - all in your preferred language.</p>
+                    <p>Break language barriers with summarized news that's easy to read and quick to catch up on - all in your preferred language.</p>
                     <div class="app-badges">
                         <a href="https://play.google.com/store/apps/developer?id=Alan+Project&hl=en" target="_blank" class="badge">
                             <img src="assets/images/googleplay.png" alt="Get it on Google Play">
@@ -1107,7 +1162,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="phone-mockup fade-in">
+                <div class="phone-mockup">
                     <div class="phone-stack">
                         <div class="phone-item phone-back">
                             <img src="assets/images/mock_main_3.png" alt="News Platter App - Translation">
@@ -1127,21 +1182,21 @@
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title fade-in">Your News, Made Better</h2>
-            <p class="section-subtitle fade-in">Discover what makes News Platter the ultimate news companion</p>
+            <h2 class="section-title">Your News, Made Better</h2>
+            <p class="section-subtitle">Discover what makes News Platter the ultimate news companion</p>
             
             <div class="features-grid">
                 <!-- Feature 1 -->
-                <div class="feature-card fade-in">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <img src="assets/images/language.png" alt="Language Icon">
                     </div>
                     <h3>Multi-Language Translation</h3>
-                    <p>Get news in your preferred language with real-time translation support for Hindi, Arabic, Chinese, Korean, English and more. Our AI-powered translation ensures accuracy and context preservation across all supported languages.</p>
+                    <p>Get news in your preferred language with real-time translation support for Hindi, Arabic, Chinese, Korean, English, and more. Translations are designed to maintain accuracy and preserve context across all supported languages.</p>
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="feature-card fade-in">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <img src="assets/images/refresh.png" alt="Refresh Icon">
                     </div>
@@ -1150,16 +1205,16 @@
                 </div>
 
                 <!-- Feature 3 -->
-                <div class="feature-card fade-in">
+                <div class="feature-card">
                     <div class="feature-icon">
-                        <img src="assets/images/bookmark.png" alt="Bookmark Icon">
+                        <img src="assets/images/briefing.png" alt="Briefing Icon">
                     </div>
-                    <h3>Smart Bookmarks</h3>
-                    <p>Save articles you want to read later with intelligent categorization and easy access across all your devices. Our smart system automatically organizes your saved content by topic, date, and relevance.</p>
+                    <h3>Daily Briefing</h3>
+                    <p>Get curated summaries of trending stories and popular news at a glance. Our smart briefing feature highlights the most important stories from around the world, saving you time while keeping you informed.</p>
                 </div>
 
                 <!-- Feature 4 -->
-                <div class="feature-card fade-in">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <img src="assets/images/notification.png" alt="Notification Icon">
                     </div>
@@ -1173,10 +1228,10 @@
     <!-- Countries Section -->
     <section id="countries" class="countries">
         <div class="container">
-            <h2 class="section-title fade-in">Global Expansion</h2>
-            <p class="section-subtitle fade-in">Bringing News Platter to countries around the world, one launch at a time</p>
+            <h2 class="section-title">Global Expansion</h2>
+            <p class="section-subtitle">Bringing News Platter to countries around the world, one launch at a time</p>
             
-            <div class="countries-grid fade-in">
+            <div class="countries-grid">
                 <!-- Canada - LIVE -->
                 <a href="https://play.google.com/store/apps/details?id=com.newsplatter.canada" target="_blank" class="country-card active">
                     <div class="launch-badge">LIVE</div>
@@ -1186,8 +1241,7 @@
                     <div class="country-name">Canada</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Successfully launched with full multi-language support including English. 
-                        <br><b>Languages: 中文, हिंदी,العربية, 한국어, English</b>
+                        <b>Languages: 中文, हिंदी, العربية, 한국어, English</b>
                     </div>
                 </a>
 
@@ -1200,8 +1254,7 @@
                     <div class="country-name">Germany</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Successfully launched with German language support and local news partnerships. 
-                        <br><b>Languages: Türkçe, العربية, Русский, Română, Deutsch, English</b>
+                        <b>Languages: Türkçe, العربية, Русский, Română, Deutsch, English</b>
                     </div>
                 </a>
 
@@ -1214,8 +1267,7 @@
                     <div class="country-name">Saudi Arabia</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Successfully launched with Arabic language integration and regional news sources. 
-                        <br><b>Languages: हिंदी, اردو, বাংলা, العربية, English</b>
+                        <b>Languages: हिंदी, اردو, বাংলা, العربية, English</b>
                     </div>
                 </a>
 
@@ -1228,8 +1280,7 @@
                     <div class="country-name">UAE</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Successfully launched with Arabic and English language support. 
-                        <br><b>Languages:  हिंदी, اردو, മലയാളം, العربية, English</b>
+                        <b>Languages: हिंदी, اردو, മലയാളം, العربية, English</b>
                     </div>
                 </a>
 
@@ -1242,21 +1293,17 @@
                     <div class="country-name">Russia</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        Successfully launched with Russian language support and local news. 
-                        <br><b>Languages: Oʻzbekcha, Тоҷикӣ, Українська, Русский, English</b>
+                        <b>Languages: Oʻzbekcha, Тоҷикӣ, Українська, Русский, English</b>
                     </div>
                 </a>
 
                 <!-- Coming Soon Countries with Question Marks -->
                 <div class="country-card coming-soon">
                     <div class="country-flag">
-                        <span style="font-size: 2rem;">❓</span>
+                        <span style="font-size: 2rem; color: #6b7280;">❓</span>
                     </div>
                     <div class="country-name">More Countries</div>
                     <div class="country-status">Coming Soon</div>
-                    <div class="country-description">
-                        We're expanding to more countries soon. Stay tuned for updates on new launches and regional availability.
-                    </div>
                 </div>
             </div>
         </div>
@@ -1274,7 +1321,7 @@
                         <img src="assets/images/alan.jpg" alt="Alan">
                     </div>
                     <div class="member-name">Alan</div>
-                    <div class="member-role">Mobile Developer<br>Member of Late Night Devs</div>
+                    <div class="member-role">Mobile Developer<br>Member of L.N.D</div>
                     <div class="member-description">Passionate mobile app developer specializing in Android, Flutter and AI integration. The one-man army behind News Platter — fueled by late-night code sprints and too much coffee.</div>
                 </div>
                 
@@ -1284,7 +1331,7 @@
                     </div>
                     <div class="member-name">Elin</div>
                     <div class="member-role">UI/UX Designer<br>&nbsp;</div>
-                    <div class="member-description">Mastermind of UI/UX concepts and design magic. Brings style, structure, and sanity to the app’s visual experience. Also gives honest feedback, whether asked for or not.</div>
+                    <div class="member-description">Drives creative thinking and brings fresh perspectives to the team. Keeps ideas flowing and challenges conventional approaches.</div>
                 </div>
                 
                 <div class="team-member">
@@ -1362,8 +1409,6 @@
     </footer>
 
     <script>
-        // Phone mockup hover effects are handled by CSS
-
         // Mobile menu toggle
         function toggleMenu() {
             const menu = document.getElementById('nav-menu');
@@ -1419,26 +1464,6 @@
             }
         }
 
-        // Scroll animations
-        function animateOnScroll() {
-            const elements = document.querySelectorAll('.fade-in');
-            elements.forEach(element => {
-                // Skip animation for teams and contact sections
-                const parentSection = element.closest('#teams, #contact');
-                if (parentSection) {
-                    element.classList.add('visible');
-                    return;
-                }
-
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.classList.add('visible');
-                }
-            });
-        }
-
         // Handle contact form submission with AJAX
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1481,33 +1506,8 @@
         });
 
         // Event listeners
-        window.addEventListener('scroll', () => {
-            updateOnScroll();
-            animateOnScroll();
-        });
-
-        window.addEventListener('load', () => {
-            animateOnScroll();
-            updateOnScroll();
-        });
-
-        // Initialize animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add initial fade-in class to elements
-            const elements = document.querySelectorAll('.fade-in');
-            elements.forEach((element, index) => {
-                // Skip delay for teams and contact sections
-                const parentSection = element.closest('#teams, #contact');
-                if (!parentSection) {
-                    setTimeout(() => {
-                        element.style.transitionDelay = `${index * 0.1}s`;
-                    }, 100);
-                }
-            });
-            
-            // Trigger initial animation check
-            setTimeout(animateOnScroll, 200);
-        });
+        window.addEventListener('scroll', updateOnScroll);
+        window.addEventListener('load', updateOnScroll);
     </script>
 </body>
 </html>
