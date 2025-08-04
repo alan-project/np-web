@@ -117,20 +117,20 @@
             padding: 0 20px;
         }
 
-        /* Header - 검정에서 하얀색으로 전환 */
+
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8); /* 초기에는 반투명 검정 */
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            color: white; /* 초기 텍스트는 흰색 */
+            color: white;
             z-index: 1000;
             padding: 1.5rem 0;
             transition: all 0.4s ease;
         }
 
-        /* 헤더 텍스트에 그림자 추가 */
+
         header .logo,
         header nav a {
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -141,24 +141,23 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
-            color: #333; /* 스크롤 시 텍스트 어두워짐 */
+            color: #333;
         }
 
-        /* 스크롤 시 텍스트 색상 조정 */
         header.scrolled .logo,
         header.scrolled nav a {
             text-shadow: none;
         }
 
-        /* 스크롤 시 메뉴 색상 조정 */
+
         header.scrolled nav a {
-            color: rgba(51, 51, 51, 0.6); /* 기본 회색 */
+            color: rgba(51, 51, 51, 0.6);
         }
 
         header.scrolled nav a:hover,
         header.scrolled nav a.active {
-            color: #333; /* 선택/호버 시 검정 */
-            border-color: #333; /* 검정 테두리 */
+            color: #333;
+            border-color: #333;
         }
 
         .logo {
@@ -182,12 +181,12 @@
             color: #dc2626;
         }
 
-        /* PLATTER 텍스트 - 어두운 배경에서는 흰색 */
+        
         .logo .platter-text {
             color: white !important;
         }
 
-        /* 스크롤 시 PLATTER 텍스트는 검은색 */
+        
         header.scrolled .logo .platter-text {
             color: #000000 !important;
         }
@@ -220,9 +219,9 @@
             position: relative;
         }
 
-        /* 메뉴 호버 효과 - 검정 배경에서 */
+        
         nav a {
-            color: rgba(255, 255, 255, 0.7); /* 기본은 회색빙 흰색 */
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -235,8 +234,8 @@
         }
 
         nav a:hover, nav a.active {
-            color: white; /* 선택/호버 시 흰색 */
-            border-color: white; /* 흰색 테두리 */
+            color: white;
+            border-color: white;
             background: transparent;
             transform: scale(1.05);
         }
@@ -253,7 +252,7 @@
             padding: 0.5rem;
         }
 
-        /* Hero Section - 어두운 배경 이미지 */
+        
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/background.jpg');
             background-size: cover;
@@ -268,7 +267,6 @@
             overflow: hidden;
         }
 
-        /* 어두운 배경에 대한 오버레이 */
         .hero::before {
             content: '';
             position: absolute;
@@ -299,6 +297,9 @@
             text-transform: uppercase;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: fadeInFromTop 1s ease-out 0.5s forwards;
         }
 
         .hero-text h1 .news-text {
@@ -326,6 +327,17 @@
             color: #e2e8f0;
             line-height: 1.6;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: fadeInFromTop 1s ease-out 1.2s forwards;
+        }
+
+        /* Fade in animation */
+        @keyframes fadeInFromTop {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .app-badges {
@@ -918,22 +930,22 @@
 
             /* Mobile Features - Horizontal Scroll Container */
             .features .container {
-                padding: 0; /* 컨테이너 패딩 제거 */
+                padding: 0;
             }
 
             .features-grid {
                 display: flex;
                 overflow-x: auto;
                 overflow-y: hidden;
-                gap: 16px;
-                padding: 0 20px 10px 20px;
+                gap: 12px;
+                padding: 0 25px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
                 -ms-overflow-style: none;
-                width: 100vw; /* 전체 화면 너비 사용 */
+                width: 100vw;
                 margin: 0;
-                max-width: none; /* max-width 제거 */
+                max-width: none;
             }
 
             .features-grid::-webkit-scrollbar {
@@ -941,11 +953,11 @@
             }
 
             .feature-card {
-                flex: 0 0 300px; /* 고정 너비로 스크롤 보장 */
-                padding: 1rem;
+                flex: 0 0 240px;
+                padding: 0.8rem;
                 min-height: 120px;
                 scroll-snap-align: start;
-                margin: 0; /* 마진 제거 */
+                margin: 0;
             }
             
             .feature-card p {
@@ -953,19 +965,19 @@
             }
             
             .feature-card h3 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 margin-bottom: 0;
             }
             
             .feature-icon {
-                width: 60px;
-                height: 60px;
-                margin: 0 auto 1rem;
+                width: 50px;
+                height: 50px;
+                margin: 0 auto 0.8rem;
             }
             
             .feature-icon img {
-                width: 35px;
-                height: 35px;
+                width: 30px;
+                height: 30px;
             }
 
             .form-row, .form-row-three {
@@ -979,22 +991,23 @@
 
             /* Mobile Teams - Horizontal Scroll Container */
             .teams .container {
-                padding: 0; /* 컨테이너 패딩 제거 */
+                padding: 0;
             }
 
             .team-grid {
                 display: flex;
                 overflow-x: auto;
                 overflow-y: hidden;
-                gap: 16px;
-                padding: 0 20px 10px 20px;
+                gap: 12px;
+                padding: 0 25px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
                 -ms-overflow-style: none;
-                width: 100vw; /* 전체 화면 너비 사용 */
+                width: 100vw;
                 margin: 0;
-                max-width: none; /* max-width 제거 */
+                max-width: none;
+                will-change: transform;
             }
 
             .team-grid::-webkit-scrollbar {
@@ -1002,26 +1015,27 @@
             }
             
             .team-member {
-                flex: 0 0 280px; /* 고정 너비로 스크롤 보장 */
-                padding: 1rem;
+                flex: 0 0 220px;
+                padding: 0.8rem;
                 min-height: 140px;
                 scroll-snap-align: start;
-                margin: 0; /* 마진 제거 */
+                margin: 0;
+                will-change: transform;
             }
             
             .member-photo {
-                width: 80px;
-                height: 80px;
-                margin: 0 auto 1rem;
+                width: 70px;
+                height: 70px;
+                margin: 0 auto 0.8rem;
             }
             
             .member-name {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 margin-bottom: 0.3rem;
             }
             
             .member-role {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 margin-bottom: 0.5rem;
             }
             
@@ -1044,22 +1058,22 @@
 
             /* Mobile Countries - Horizontal Scroll Container */
             .countries .container {
-                padding: 0; /* 컨테이너 패딩 제거 */
+                padding: 0;
             }
 
             .countries-grid {
                 display: flex !important;
                 overflow-x: auto;
                 overflow-y: hidden;
-                gap: 16px;
-                padding: 0 20px 10px 20px;
+                gap: 12px;
+                padding: 0 25px 10px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
                 -ms-overflow-style: none;
-                width: 100vw; /* 전체 화면 너비 사용 */
+                width: 100vw;
                 margin: 0;
-                max-width: none; /* max-width 제거 */
+                max-width: none;
             }
 
             .countries-grid::-webkit-scrollbar {
@@ -1067,11 +1081,11 @@
             }
             
             .country-card {
-                flex: 0 0 220px; /* 고정 너비로 스크롤 보장 */
+                flex: 0 0 180px;
                 padding: 0.8rem;
                 min-height: 120px;
                 scroll-snap-align: start;
-                margin: 0; /* 마진 제거 */
+                margin: 0;
             }
             
             .country-name {
@@ -1085,19 +1099,19 @@
             }
             
             .country-flag {
-                width: 60px;
-                height: 60px;
+                width: 50px;
+                height: 50px;
                 margin: 0 auto 0.5rem;
             }
             
             .launch-badge {
                 top: 5px;
                 right: 5px;
-                padding: 2px 8px;
-                font-size: 0.6rem;
+                padding: 2px 6px;
+                font-size: 0.55rem;
             }
 
-            /* 섹션 제목과 부제목은 컨테이너 패딩 유지 */
+
             .section-title,
             .section-subtitle {
                 padding: 0 20px;
@@ -1156,10 +1170,10 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>
-                        <span class="highlight">NEWS PLATTER,</span><br>
+                        <span class="highlight">Global News,</span><br>
                         <span class="highlight">served in your language</span>
                     </h1>
-                    <p>Get only the <em>selected, summarized, and translated</em> stories that break language barriers and let you see what’s happening — clearly, quickly, and in your own language.</p>
+                    <p>Get only the <em>selected, summarized, and translated</em> stories that break language barriers and let you see what's happening — clearly, quickly, and in your own language.</p>
 
                     <div class="app-badges">
                         <a href="https://play.google.com/store/apps/developer?id=Alan+Project&hl=en" target="_blank" class="badge">
