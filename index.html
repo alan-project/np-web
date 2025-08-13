@@ -1139,6 +1139,40 @@
             background: #e5e7eb !important;
             color: #6b7280 !important;
         }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1f2937;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            font-weight: 500;
+            font-size: 1rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.ios-theme {
+            background: #374151;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(55, 65, 81, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -1179,7 +1213,7 @@
                         <a href="https://play.google.com/store/apps/developer?id=Alan+Project&hl=en" target="_blank" class="badge">
                             <img src="assets/images/googleplay.png" alt="Get it on Google Play">
                         </a>
-                        <a href="#" class="badge">
+                        <a href="#" class="badge" onclick="showIOSComingSoon(event)">
                             <img src="assets/images/appstore.png" alt="Download on the App Store">
                         </a>
                     </div>
@@ -1526,6 +1560,45 @@
                 submitBtn.textContent = 'Send Message';
             });
         });
+
+        // Toast notification function
+        function showToast(message, theme = '') {
+            // Remove any existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${theme}`;
+            toast.textContent = message;
+            
+            // Add to body
+            document.body.appendChild(toast);
+            
+            // Show toast with animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Hide and remove toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        document.body.removeChild(toast);
+                    }
+                }, 400);
+            }, 3000);
+        }
+
+        // iOS coming soon handler
+        function showIOSComingSoon(event) {
+            event.preventDefault();
+            showToast('iOS version coming soon! Stay tuned for updates.', 'ios-theme');
+            return false;
+        }
 
         // Event listeners
         window.addEventListener('scroll', updateOnScroll);
