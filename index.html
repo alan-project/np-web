@@ -162,12 +162,13 @@
 
         .logo {
             font-family: 'Inter', sans-serif;
-            font-style: italic;
             font-weight: 900;
             font-size: 1.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            letter-spacing: -0.5px;
+            text-shadow: 0.5px 0 0 currentColor;
             transition: all 0.4s ease;
             opacity: 1;
             transform: translateX(0);
@@ -195,6 +196,8 @@
             width: 34px;
             height: 34px;
             transition: all 0.4s ease;
+            border: 0.5px solid rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
         }
 
         header.scrolled .logo-icon {
@@ -687,12 +690,13 @@
 
         .footer-logo {
             font-family: 'Inter', sans-serif;
-            font-style: italic;
             font-weight: 900;
             font-size: 2rem;
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
+            letter-spacing: -0.5px;
+            text-shadow: 0.5px 0 0 currentColor;
             justify-content: center;
             gap: 10px;
             text-transform: uppercase;
@@ -837,6 +841,35 @@
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
+        }
+
+        .launch-badge.coming-soon-badge {
+            background: linear-gradient(45deg, #6b7280, #9ca3af);
+        }
+
+        .country-card.paused {
+            opacity: 0.6;
+            cursor: default;
+            background: #f9fafb;
+            border-color: #e5e7eb;
+        }
+
+        .country-card.paused:hover {
+            transform: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #e5e7eb;
+        }
+
+        .country-card.paused .country-flag img {
+            opacity: 0.7;
+        }
+
+        .country-card.paused .country-status {
+            color: #6b7280;
+        }
+
+        .country-card.paused .country-description {
+            color: #9ca3af;
         }
 
         @media (min-width: 1200px) {
@@ -1288,19 +1321,6 @@
             <p class="section-subtitle">Bringing News Platter to countries around the world, one launch at a time</p>
             
             <div class="countries-grid">
-                <!-- Canada - LIVE -->
-                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.canada" target="_blank" class="country-card active">
-                    <div class="launch-badge">LIVE</div>
-                    <div class="country-flag">
-                        <img src="assets/images/canada_flag.png" alt="Canada Flag">
-                    </div>
-                    <div class="country-name">Canada</div>
-                    <div class="country-status">Now Available</div>
-                    <div class="country-description">
-                        <b>Languages: 中文, हिंदी, العربية, 한국어, English</b>
-                    </div>
-                </a>
-
                 <!-- Germany - LIVE -->
                 <a href="https://play.google.com/store/apps/details?id=com.newsplatter.germany" target="_blank" class="country-card active">
                     <div class="launch-badge">LIVE</div>
@@ -1314,29 +1334,16 @@
                     </div>
                 </a>
 
-                <!-- Saudi Arabia - LIVE -->
-                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.saudi" target="_blank" class="country-card active">
+                <!-- Canada - LIVE -->
+                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.canada" target="_blank" class="country-card active">
                     <div class="launch-badge">LIVE</div>
                     <div class="country-flag">
-                        <img src="assets/images/saudi_flag.png" alt="Saudi Arabia Flag">
+                        <img src="assets/images/canada_flag.png" alt="Canada Flag">
                     </div>
-                    <div class="country-name">Saudi Arabia</div>
+                    <div class="country-name">Canada</div>
                     <div class="country-status">Now Available</div>
                     <div class="country-description">
-                        <b>Languages: हिंदी, اردو, বাংলা, العربية, English</b>
-                    </div>
-                </a>
-
-                <!-- UAE - LIVE -->
-                <a href="https://play.google.com/store/apps/details?id=com.newsplatter.uae" target="_blank" class="country-card active">
-                    <div class="launch-badge">LIVE</div>
-                    <div class="country-flag">
-                        <img src="assets/images/uae_flag.png" alt="UAE Flag">
-                    </div>
-                    <div class="country-name">UAE</div>
-                    <div class="country-status">Now Available</div>
-                    <div class="country-description">
-                        <b>Languages: हिंदी, اردو, മലയാളം, العربية, English</b>
+                        <b>Languages: 中文, हिंदी, العربية, 한국어, English</b>
                     </div>
                 </a>
 
@@ -1352,6 +1359,32 @@
                         <b>Languages: Oʻzbekcha, Тоҷикӣ, Українська, Русский, English</b>
                     </div>
                 </a>
+
+                <!-- UAE - COMING SOON -->
+                <div class="country-card paused">
+                    <div class="launch-badge coming-soon-badge">COMING SOON</div>
+                    <div class="country-flag">
+                        <img src="assets/images/uae_flag.png" alt="UAE Flag">
+                    </div>
+                    <div class="country-name">UAE</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        <b>Languages: हिंदी, اردو, മലയാളം, العربية, English</b>
+                    </div>
+                </div>
+
+                <!-- Saudi Arabia - COMING SOON -->
+                <div class="country-card paused">
+                    <div class="launch-badge coming-soon-badge">COMING SOON</div>
+                    <div class="country-flag">
+                        <img src="assets/images/saudi_flag.png" alt="Saudi Arabia Flag">
+                    </div>
+                    <div class="country-name">Saudi Arabia</div>
+                    <div class="country-status">Coming Soon</div>
+                    <div class="country-description">
+                        <b>Languages: हिंदी, اردو, বাংলা, العربية, English</b>
+                    </div>
+                </div>
 
                 <!-- Coming Soon Countries with Question Marks -->
                 <div class="country-card coming-soon">
