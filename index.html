@@ -97,6 +97,14 @@
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID');
     </script>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("V8E90LnNrSYn_lwiF");
+        })();
+    </script>
     
     <style>
         * {
@@ -1442,9 +1450,6 @@
             <p class="section-subtitle">Have questions or feedback? We'd love to hear from you and help you get started.</p>
             
             <form class="contact-form" id="contact-form">
-                <!-- Formspree 설정 -->
-                <input type="hidden" name="_subject" value="News Platter - New Contact Form Message">
-                <input type="hidden" name="_cc" value="banana205@gmail.com">
                 
                 <div class="form-row-three">
                     <div class="form-group">
@@ -1553,45 +1558,44 @@
             }
         }
 
-        // Handle contact form submission with AJAX
+        // Handle contact form submission with EmailJS
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const form = e.target;
-            const formData = new FormData(form);
             const submitBtn = form.querySelector('.submit-btn');
-            
+
             // Disable button and show loading
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
-            
-            // Send to Formspree
-            fetch('https://formspree.io/f/mkgzgrwn', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
+
+            // Prepare template parameters
+            const templateParams = {
+                from_name: form.name.value,
+                from_email: form.email.value,
+                phone: form.phone.value || 'Not provided',
+                subject: form.subject.value,
+                message: form.message.value,
+                to_email: 'banana205@gmail.com'
+            };
+
+            // Send email using EmailJS
+            emailjs.send('service_81jmteg', 'template_4o8l996', templateParams)
+                .then(function(response) {
                     // Success - clear form and show message
                     form.reset();
-                    alert('Thank you for your message! We will get back to you soon.');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .catch(error => {
-                alert('Sorry, there was an error sending your message. Please try again.');
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                // Re-enable button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            });
+                    showToast('Thank you for your message! We will get back to you soon.', 'success');
+                    console.log('SUCCESS!', response.status, response.text);
+                }, function(error) {
+                    // Error handling
+                    showToast('Sorry, there was an error sending your message. Please try again.', 'error');
+                    console.error('FAILED...', error);
+                })
+                .finally(() => {
+                    // Re-enable button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                });
         });
 
         // Toast notification function
