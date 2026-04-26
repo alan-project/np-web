@@ -1216,6 +1216,115 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(55, 65, 81, 0.4);
         }
+
+        /* Labs hidden modal */
+        .labs-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .labs-overlay.show { display: flex; }
+        .labs-modal {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 16px;
+            padding: 32px 28px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            animation: labsPop 0.25s ease-out;
+        }
+        @keyframes labsPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        .labs-modal .labs-icon {
+            font-size: 44px;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+        .labs-modal h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .labs-modal .labs-sub {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .labs-modal input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .labs-modal input[type="password"]:focus {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.08);
+        }
+        .labs-modal input[type="password"].error {
+            border-color: #ef4444;
+            animation: shake 0.35s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25%      { transform: translateX(-6px); }
+            75%      { transform: translateX(6px); }
+        }
+        .labs-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .labs-actions button {
+            flex: 1;
+            padding: 11px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .labs-actions .labs-cancel {
+            background: rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .labs-actions .labs-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .labs-actions .labs-submit {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .labs-actions .labs-submit:hover {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        .labs-error {
+            color: #f87171;
+            font-size: 12px;
+            margin-top: 10px;
+            min-height: 16px;
+        }
     </style>
 </head>
 <body>
@@ -1484,6 +1593,23 @@
     </section>
 
     <!-- Footer -->
+    <!-- Labs hidden gate (triggered by #labs in URL) -->
+    <div class="labs-overlay" id="labsOverlay" role="dialog" aria-modal="true" aria-labelledby="labsTitle">
+        <div class="labs-modal">
+            <div class="labs-icon">🦖</div>
+            <h3 id="labsTitle">Labs</h3>
+            <div class="labs-sub">Enter the password to continue.</div>
+            <form id="labsForm" autocomplete="off">
+                <input type="password" id="labsPassword" placeholder="Password" autocomplete="new-password" autofocus>
+                <div class="labs-error" id="labsError"></div>
+                <div class="labs-actions">
+                    <button type="button" class="labs-cancel" id="labsCancel">Cancel</button>
+                    <button type="submit" class="labs-submit">Enter →</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <div class="footer-logo">
@@ -1642,6 +1768,88 @@
         // Event listeners
         window.addEventListener('scroll', updateOnScroll);
         window.addEventListener('load', updateOnScroll);
+
+        // ============================================================
+        // Labs hidden gate
+        //   Trigger: visit `newsplatter.net/#labs`
+        //   Password: stored as SHA-256 hash so the literal string isn't in source.
+        //   ⚠️ This is obfuscation, not security. Anyone with DevTools can
+        //   bypass by reading the redirect target. Keep secrets server-side.
+        // ============================================================
+        const LABS_PASSWORD_SHA256 = '33c594e4e36529842cb1344043ec59e9f4d026466fd7ba0112a635fbe30baf3e';
+        const LABS_TARGET = '/labs/speakzilla/';
+        const LABS_SESSION_KEY = 'labs_authed';
+
+        async function sha256Hex(text) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf))
+                .map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function showLabsModal() {
+            const overlay = document.getElementById('labsOverlay');
+            const input = document.getElementById('labsPassword');
+            const err = document.getElementById('labsError');
+            err.textContent = '';
+            input.value = '';
+            input.classList.remove('error');
+            overlay.classList.add('show');
+            setTimeout(() => input.focus(), 50);
+        }
+
+        function hideLabsModal(clearHash = true) {
+            document.getElementById('labsOverlay').classList.remove('show');
+            if (clearHash && location.hash === '#labs') {
+                history.replaceState(null, '', location.pathname + location.search);
+            }
+        }
+
+        function enterLabs() {
+            try { sessionStorage.setItem(LABS_SESSION_KEY, '1'); } catch (e) {}
+            window.location.href = LABS_TARGET;
+        }
+
+        document.getElementById('labsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('labsPassword');
+            const err = document.getElementById('labsError');
+            const candidate = input.value.trim();
+            if (!candidate) return;
+            const hash = await sha256Hex(candidate);
+            if (hash === LABS_PASSWORD_SHA256) {
+                err.textContent = '';
+                enterLabs();
+            } else {
+                err.textContent = 'Wrong password.';
+                input.classList.add('error');
+                setTimeout(() => input.classList.remove('error'), 400);
+                input.select();
+            }
+        });
+
+        document.getElementById('labsCancel').addEventListener('click', () => hideLabsModal(true));
+        document.getElementById('labsOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'labsOverlay') hideLabsModal(true);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('labsOverlay').classList.contains('show')) {
+                hideLabsModal(true);
+            }
+        });
+
+        function maybeOpenLabs() {
+            if (location.hash !== '#labs') return;
+            // If already authenticated this session, jump straight in
+            try {
+                if (sessionStorage.getItem(LABS_SESSION_KEY) === '1') {
+                    enterLabs();
+                    return;
+                }
+            } catch (e) {}
+            showLabsModal();
+        }
+        window.addEventListener('hashchange', maybeOpenLabs);
+        window.addEventListener('load', maybeOpenLabs);
     </script>
 </body>
 </html>

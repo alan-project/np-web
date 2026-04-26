@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speakzilla — Pronunciation MVP</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f7fa;
+    color: #1a202c;
+    min-height: 100vh;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 26px; margin-bottom: 4px; }
+  .subtitle { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .level-buttons { display: flex; gap: 8px; margin-bottom: 16px; }
+  .level-btn {
+    flex: 1; padding: 12px;
+    border: 2px solid #e2e8f0; background: white;
+    border-radius: 8px; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 500;
+    transition: all 0.15s;
+  }
+  .level-btn:hover { border-color: #3b82f6; }
+  .level-btn.active {
+    border-color: #3b82f6; background: #3b82f6; color: white;
+  }
+  .sentence {
+    font-size: 22px; font-weight: 500;
+    padding: 20px 0; text-align: center;
+    line-height: 1.4;
+  }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 16px;
+  }
+  button {
+    padding: 14px; border: none; border-radius: 8px;
+    cursor: pointer; font-family: inherit;
+    font-size: 14px; font-weight: 600;
+    transition: all 0.15s;
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-listen { background: #6366f1; color: white; }
+  .btn-listen:hover:not(:disabled) { background: #4f46e5; }
+  .btn-record { background: #ef4444; color: white; }
+  .btn-record:hover:not(:disabled) { background: #dc2626; }
+  .btn-record.recording {
+    background: #991b1b; animation: pulse 1s infinite;
+  }
+  .btn-record.processing {
+    background: #64748b; animation: none; cursor: not-allowed;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .processing-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #3b82f6;
+    font-weight: 500;
+  }
+  .processing-status .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #cbd5e1;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  .status {
+    text-align: center; color: #64748b;
+    font-size: 13px; margin-top: 12px; min-height: 20px;
+  }
+  .results { display: none; }
+  .results.show { display: block; }
+  .scores {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin-bottom: 20px;
+  }
+  .score-box {
+    background: #f8fafc; border-radius: 8px;
+    padding: 12px; text-align: center;
+  }
+  .score-label {
+    font-size: 10px; color: #64748b;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .score-value {
+    font-size: 24px; font-weight: 700; color: #1a202c;
+  }
+  .score-value.good { color: #16a34a; }
+  .score-value.mid { color: #ca8a04; }
+  .score-value.bad { color: #dc2626; }
+  .word-display {
+    background: #f8fafc; border-radius: 8px;
+    padding: 20px; text-align: center;
+  }
+  .word-wrapper {
+    display: inline-block;
+    margin: 4px 2px;
+    vertical-align: top;
+    position: relative;
+  }
+  .word {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .word:hover { transform: translateY(-1px); }
+  .word.expanded { border-color: #3b82f6; }
+  .word-chevron { font-size: 11px; opacity: 0.6; }
+  .word.expanded .word-chevron { transform: rotate(180deg); }
+  .word.good { background: #dcfce7; color: #166534; }
+  .word.mid { background: #fef3c7; color: #92400e; }
+  .word.bad { background: #fee2e2; color: #991b1b; }
+  .word.miss {
+    background: #e0e7ff; color: #3730a3;
+    text-decoration: line-through;
+  }
+  .phoneme-detail {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    padding: 14px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    text-align: left;
+    min-width: 260px;
+    max-width: 340px;
+    width: max-content;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+  .phoneme-detail::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-left: 1px solid #e2e8f0;
+    border-top: 1px solid #e2e8f0;
+  }
+  .phoneme-detail.flip-left {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+  .phoneme-detail.flip-left::before {
+    left: auto;
+    right: 16px;
+    transform: rotate(45deg);
+  }
+  .phoneme-detail.flip-right {
+    left: 0;
+    transform: none;
+  }
+  .phoneme-detail.flip-right::before {
+    left: 16px;
+    transform: rotate(45deg);
+  }
+  .phoneme-header {
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .word-breakdown {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 14px 8px;
+    margin-bottom: 12px;
+    background: #fafbfc;
+    border-radius: 8px;
+    line-height: 1.3;
+  }
+  .word-chunk {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+  }
+  .word-chunk.good { color: #166534; background: rgba(220, 252, 231, 0.5); }
+  .word-chunk.mid  { color: #92400e; background: rgba(254, 243, 199, 0.6); }
+  .word-chunk.bad  { color: #991b1b; background: rgba(254, 226, 226, 0.7); }
+  .word-chunk.worst {
+    text-decoration: underline wavy #dc2626;
+    text-decoration-thickness: 2.5px;
+    text-underline-offset: 4px;
+    animation: chunkBreathe 1.8s ease-in-out infinite;
+  }
+  @keyframes chunkBreathe {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+  .chunk-sep {
+    color: #cbd5e1;
+    margin: 0 2px;
+    font-weight: 400;
+    font-size: 22px;
+  }
+  .breakdown-caption {
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: -6px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .phoneme-header .good { color: #16a34a; font-weight: 600; }
+  .phoneme-header .mid { color: #ca8a04; font-weight: 600; }
+  .phoneme-header .bad { color: #dc2626; font-weight: 600; }
+  .phoneme-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .phoneme-label {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+    min-width: 70px;
+  }
+  .phoneme-chip {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    min-width: 32px;
+  }
+  .phoneme-symbol {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .phoneme-score {
+    font-size: 10px;
+    opacity: 0.75;
+    margin-top: 1px;
+  }
+  .phoneme-chip.good { background: #dcfce7; color: #166534; }
+  .phoneme-chip.mid { background: #fef3c7; color: #92400e; }
+  .phoneme-chip.bad { background: #fee2e2; color: #991b1b; }
+  .syllable-row .phoneme-chip {
+    background: #eff6ff;
+    color: #1e40af;
+  }
+  .syllable-row .phoneme-chip.good { background: #dcfce7; color: #166534; }
+  .syllable-row .phoneme-chip.mid { background: #fef3c7; color: #92400e; }
+  .syllable-row .phoneme-chip.bad { background: #fee2e2; color: #991b1b; }
+  .phoneme-hint {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #fef2f2;
+    border-left: 3px solid #ef4444;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #991b1b;
+  }
+  .hint {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #eff6ff;
+    border-left: 3px solid #3b82f6;
+    border-radius: 4px;
+    font-size: 12px; color: #1e40af;
+  }
+  details {
+    margin-top: 16px; padding: 12px;
+    background: #f8fafc; border-radius: 8px;
+    font-size: 12px;
+  }
+  details summary {
+    cursor: pointer; color: #64748b; font-weight: 500;
+  }
+  details pre {
+    margin-top: 12px; padding: 12px;
+    background: #1e293b; color: #e2e8f0;
+    border-radius: 6px; overflow-x: auto;
+    font-size: 11px; line-height: 1.5;
+  }
+  .waveform-container {
+    display: none;
+    margin-top: 16px;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 8px;
+    padding: 14px 16px;
+    height: 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .waveform-container.active { display: block; }
+  .waveform-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .waveform-label {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 10px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .waveform-label .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #ef4444;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 1s infinite;
+    vertical-align: middle;
+  }
+  .playback-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+    padding: 10px 14px;
+    background: #f1f5f9;
+    border-radius: 8px;
+  }
+  .playback-bar .label {
+    font-size: 12px;
+    color: #475569;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .playback-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: white;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    transition: all 0.15s;
+  }
+  .playback-btn:hover:not(:disabled) {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+  }
+  .playback-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .playback-btn.playing,
+  .ab-btn.playing {
+    background: #ef4444 !important;
+    color: white !important;
+    border-color: #ef4444 !important;
+    animation: pulse 1s infinite;
+  }
+  .ab-buttons {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+  }
+  .ab-btn {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .ab-btn.mine { border-color: #ef4444; color: #b91c1c; }
+  .ab-btn.mine:hover:not(:disabled) { background: #ef4444; color: white; }
+  .ab-btn.native { border-color: #6366f1; color: #4338ca; }
+  .ab-btn.native:hover:not(:disabled) { background: #6366f1; color: white; }
+  .ab-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .config-warning {
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 13px; color: #92400e;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🦖 Speakzilla</h1>
+  <div class="subtitle">Azure Pronunciation Assessment — MVP</div>
+
+  <div id="configWarning" class="config-warning" style="display:none;">
+    ⚠️ Set your Azure key and region in <code>config.js</code> before using.
+  </div>
+
+  <div class="card">
+    <div class="level-buttons">
+      <button class="level-btn active" data-level="0">Beginner</button>
+      <button class="level-btn" data-level="1">Intermediate</button>
+      <button class="level-btn" data-level="2">Advanced</button>
+    </div>
+    <div class="sentence" id="sentence"></div>
+    <div class="controls">
+      <button class="btn-listen" id="btnListen">🔊 Listen</button>
+      <button class="btn-record" id="btnRecord">● Record (max 30s)</button>
+    </div>
+    <div class="status" id="status">Click "Listen" to hear native pronunciation, then "Record" to try yourself.</div>
+    <div class="waveform-container" id="waveformContainer">
+      <div class="waveform-label"><span class="dot"></span>RECORDING</div>
+      <canvas class="waveform-canvas" id="waveformCanvas"></canvas>
+    </div>
+  </div>
+
+  <div class="card results" id="results">
+    <div class="playback-bar" id="playbackBar">
+      <span class="label">🎧 Compare:</span>
+      <button class="playback-btn" id="btnPlayMine">▶ My recording</button>
+      <button class="playback-btn" id="btnPlayNativeFull">▶ Native</button>
+    </div>
+    <div class="scores">
+      <div class="score-box">
+        <div class="score-label">Pronunciation</div>
+        <div class="score-value" id="scorePron">—</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">Accuracy</div>
+        <div class="score-value" id="scoreAcc">—</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">Fluency</div>
+        <div class="score-value" id="scoreFlu">—</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">Prosody</div>
+        <div class="score-value" id="scoreProsody">—</div>
+      </div>
+    </div>
+
+    <div class="word-display" id="wordDisplay"></div>
+
+    <div class="hint">
+      💡 <strong>Click any word</strong> to see phoneme-level scores. Green = good (80+), Yellow = okay (60-79), Red = needs work (&lt;60).
+    </div>
+
+    <details>
+      <summary>Show raw API response (debug)</summary>
+      <pre id="rawJson"></pre>
+    </details>
+  </div>
+</div>
+
+<!-- Azure Speech SDK from CDN -->
+<script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+
+<!-- Your config (key + region) -->
+<script src="config.js"></script>
+
+<!-- App logic -->
+<script src="app.js"></script>
+</body>
+</html>
